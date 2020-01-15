@@ -1,0 +1,68 @@
+{
+  "name": "edenxicensus",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "firebase:link": "node ./src/utils/firebase/create-symlink.js",
+    "firebase:merge": "node ./src/utils/firebase/merge-dependencies.js",
+    "firebase:install": "npm run firebase:merge && echo 'Installing firebase dependencies...' && npm install",
+    "firebase:deploy": "cd baas/firebase/functions && firebase deploy --only functions",
+    "firebase:log": "cd baas/firebase/functions && firebase functions:log"
+  },
+  "dependencies": {
+    "axios": "^0.19.1",
+    "chart.js": "^2.9.3",
+    "core-js": "^3.4.4",
+    "firebase": "^7.6.2",
+    "firebase-admin": "^8.9.0",
+    "firebase-functions": "^3.3.0",
+    "moment": "^2.24.0",
+    "path": "^0.12.7",
+    "vue": "^2.6.10",
+    "vue-chartjs": "^3.5.0",
+    "vue-firestore": "^0.3.22"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.1.0",
+    "@vue/cli-plugin-eslint": "^4.1.0",
+    "@vue/cli-service": "^4.1.0",
+    "babel-eslint": "^10.0.3",
+    "cross-env": "^6.0.3",
+    "eslint": "^5.12.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "laravel-mix": "^5.0.1",
+    "node-sass": "^4.13.0",
+    "tailwindcss": "^1.1.4",
+    "vue-template-compiler": "^2.6.10",
+    "eslint-plugin-promise": "^4.0.1",
+    "firebase-functions-test": "^0.1.6"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {
+      "no-console": "off",
+      "no-unused-vars": "off"
+    },
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ],
+  "description": "Cloud Functions for Firebase",
+  "engines": {
+    "node": "8"
+  }
+}

@@ -1,0 +1,22 @@
+Installing new firebase npm packages:
+    Because firebase has a symlink to our root directory `node_modules` folder, only add to the modules package.json file, do not
+    install from within firebase root directory or you will have to re-install all packages again.
+    To add to a package.json without installing, install the `adddeps` npm package globally by running the following command:
+
+    `sudo npm install adddep -g`.
+
+    This will allow you to add the latest versions of dependencies to firebase package.json file without installing them.
+    To then install those dependencies, run the following command from the project root directory:
+
+    `npm run firebase:install`
+
+    This will merge all firebase level package.json files into the root package.json and install.
+    This ensures we only install our dependencies for all services once.
+
+Module level npm package and script commands:
+    The following commands are available to speed up development when working with firebase:
+
+    `npm run firebase:merge`        - Merges all firebase package.json dependencies into the root package.json
+    `npm run firebase:install`      - Runs the `firebase:merge` command before running `npm run install`
+    `npm run firebase:symlink`      - Adds a `node_modules` symlink to the firebase root, linking to the root node_modules folder.
+
