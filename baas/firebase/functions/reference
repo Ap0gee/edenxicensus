@@ -1,0 +1,14 @@
+exports.updateOnlineCharacters = functions.https.onRequest(async(req, res) => {
+    let ref = admin.database().ref('/characters');
+    ref.once('value').then(function(snapshot) {
+        let updates = _.mapValues(snapshot.val(), function(char) {
+            if ( ! char.hasOwnProperty('last_read') || ! char.hasOwnProperty('needs_read') ) {
+                return _.merge(char, {'needs_read': true} )
+            }
+            return char;
+        });
+        ref.update(updates);
+    }).then(function () {
+        res.status(200).send(`done : ${ now() }`);
+    });
+});

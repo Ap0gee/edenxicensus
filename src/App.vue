@@ -28,10 +28,10 @@
 
         ],
         created() {
-            let firebaseService = new FirebaseService(window._config.FIREBASE_CONFIG);
+          /*  let firebaseService = new FirebaseService(window._config.FIREBASE_CONFIG);
             firebaseService.database.ref('/characters').orderByChild('needs_read').equalTo(true).limitToFirst(10).once('value').then(function(snapshot) {
                     console.log(snapshot.val());
-            });
+            });*/
 
            /* this.Firestore = firebaseService.db.collection('characters');*/
             /*console.log(firebaseService.db.collection("/characters").get())*/
