@@ -55,12 +55,12 @@ exports.collectOnlineCharacters = functions.https.onRequest(async (req, res) => 
 });
 
 /**
- * Run the "collectOnlineCharacters" HTTP function on a schedule.
+ * Run the "collectOnlineCharacters" https function on a schedule.
  * Run every 15 minutes.
  * @type {CloudFunction<unknown>}
  */
 exports.collectOnlineCharactersScheduled = functions.pubsub.schedule('15 * * * *').onRun((context) => {
-    console.log('Invoking "collectOnlineCharacters" HTTP function...');
+    console.log('Invoking "collectOnlineCharacters" https function...');
     axios.get('https://us-central1-edenxicensus.cloudfunctions.net/collectOnlineCharacters', {headers: {'X-Requested-With': 'XMLHttpRequest'}})
         .then(function (response) {
             console.log('success');
@@ -123,12 +123,12 @@ exports.updateCharacterData = functions.https.onRequest(async (req, res) => {
 });
 
 /**
- * Run the "updateCharacterData" HTTP function on a schedule.
+ * Run the "updateCharacterData" https function on a schedule.
  * Run every 15 minutes.
  * @type {CloudFunction<unknown>}
  */
 exports.updateCharacterDataScheduled = functions.pubsub.schedule('15 * * * *').onRun((context) => {
-    console.log('Invoking "updateCharacterData" HTTP function...');
+    console.log('Invoking "updateCharacterData" https function...');
     axios.get('https://us-central1-edenxicensus.cloudfunctions.net/updateCharacterData', {headers: {'X-Requested-With': 'XMLHttpRequest'}})
         .then(function (response) {
             console.log('success');
