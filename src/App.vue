@@ -14,10 +14,17 @@
 
 <script>
     import TheRacesChartsManager from '@cX/chart/manager/TheRacesChartsManager.vue';
-    import testDataOnlineCharacters from '@/misc/test_data/online-characters';
-    import testDataCharacterProfiles from '@/misc/test_data/character-profiles';
-    /*import FirebaseMixin from '@/mixins/firebase.mixin';*/
     import FirebaseService from '@/services/firebase.service';
+    import censusModel from '@/models/census-data.model';
+    import { craftsTransformer } from '@/transformers/from-object/crafts.transformer';
+    import { facesTransformer } from "@/transformers/from-object/faces.transformer";
+    import {  } from "@/transformers/from-object/.transformer";
+   /* import {  } from "@/transformers/from-object/.transformer";
+    import {  } from "@/transformers/from-object/.transformer";
+    import {  } from "@/transformers/from-object/.transformer";
+    import {  } from "@/transformers/from-object/.transformer";
+    import {  } from "@/transformers/from-object/.transformer";*/
+
 
     export default {
         name: 'app',
@@ -28,15 +35,17 @@
 
         ],
         created() {
-          /*  let firebaseService = new FirebaseService(window._config.FIREBASE_CONFIG);
-            firebaseService.database.ref('/characters').orderByChild('needs_read').equalTo(true).limitToFirst(10).once('value').then(function(snapshot) {
-                    console.log(snapshot.val());
-            });*/
-
-           /* this.Firestore = firebaseService.db.collection('characters');*/
-            /*console.log(firebaseService.db.collection("/characters").get())*/
-           /* this.onlineCharacters = testDataOnlineCharacters.characters;*/
-
+            let firebaseService = new FirebaseService(window._config.FIREBASE_CONFIG);
+            firebaseService.database.ref('/profiles').once('value')
+                .then(function (snapshot) {
+                    let profiles = snapshot.val();
+                    window._.values(profiles).forEach(function(profile) {
+                        craftsTransformer(profile, censusModel);
+                        facesTransformer(profile, censusModel);
+                    });
+                }).then(function () {
+                    console.log(censusModel)
+                })
         },
         mounted() {
 

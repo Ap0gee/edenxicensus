@@ -1,10 +1,14 @@
 'use strict';
+
 const axios = require('axios');
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 const _ = require('lodash');
-const h = require('./helpers');
+const h = require('./utils/helpers');
 
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+
 admin.initializeApp();
 
 /* Collect Online Characters
@@ -16,11 +20,7 @@ admin.initializeApp();
  */
 exports.collectOnlineCharacters = functions.https.onRequest(async (req, res) => {
     console.log('Collecting online characters...');
-    axios.get('https://cors-anywhere.herokuapp.com/https://www.edenxi.com/ajax/onlinecharacters', {
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    })
+    axios.get('https://cors-anywhere.herokuapp.com/https://www.edenxi.com/ajax/onlinecharacters')
     .then(function (response) {
         let last_updated = h.now();
         let ref = admin.database().ref(
@@ -48,7 +48,7 @@ exports.collectOnlineCharacters = functions.https.onRequest(async (req, res) => 
                         });
                         ref.set(charData);
                     } else {
-                        if (!snapshot.val().hasOwnProperty('needs_read')) {
+                        if ( ! snapshot.val().hasOwnProperty('needs_read') ) {
                             charData = _.merge(charData, {
                                 'last_read': last_updated,
                                 'needs_read': true
@@ -77,12 +77,7 @@ exports.collectOnlineCharacters = functions.https.onRequest(async (req, res) => 
 exports.collectOnlineCharactersScheduled = functions.pubsub.schedule('*/15 * * * *')
     .onRun((context) => {
         console.log('Invoking "collectOnlineCharacters" https function...');
-        axios.get(
-        'https://us-central1-edenxicensus.cloudfunctions.net/collectOnlineCharacters', {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
+        axios.get('https://us-central1-edenxicensus.cloudfunctions.net/collectOnlineCharacters')
         .then(function (response) {
             console.log('success');
         })
@@ -113,11 +108,7 @@ exports.collectCharacterProfiles = functions.https.onRequest(async (req, res) =>
                 console.log(`processing ${charsTotal} characters`);
                 _.values(characters).forEach(function (character, index) {
                     setTimeout(async () => {
-                        axios.get(`https://edenxi.com/ajax/character?id=${ character.id }`, {
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        })
+                        axios.get(`https://edenxi.com/ajax/character?id=${ character.id }`)
                         .then(function (response) {
                             let ref = admin.database().ref(`/profiles/${ character.id }`);
                             ref.set(_.merge(response.data, {'last_updated': h.now()}));
@@ -134,7 +125,24 @@ exports.collectCharacterProfiles = functions.https.onRequest(async (req, res) =>
                             if (error.response.status === 400) {
                                 console.log('Removing Character...');
                                 let ref = admin.database().ref(`/characters/${ character.name }`);
-                                ref.remove();
+                                ref.remove()
+                                    .then(function () {
+                                        let ref = admin.database().ref('/data/characters/removed');
+                                        ref.once('value')
+                                            .then(function(snapshot) {
+                                                ref.set(snapshot.val() + 1);
+                                            });
+                                    });
+                                console.log('Removing Profile...');
+                                ref = admin.database().ref(`/profiles/${ character.id }`);
+                                ref.remove()
+                                    .then(function () {
+                                        let ref = admin.database().ref('/data/profiles/removed');
+                                        ref.once('value')
+                                            .then(function(snapshot) {
+                                                ref.set(snapshot.val() + 1);
+                                            });
+                                    })
                             }
                         })
                     }, 100);
@@ -161,11 +169,7 @@ exports.collectCharacterProfiles = functions.https.onRequest(async (req, res) =>
 exports.collectCharacterProfilesScheduled = functions.pubsub.schedule('*/15 * * * *')
     .onRun((context) => {
         console.log('Invoking "collectCharacterProfiles" https function...');
-        axios.get('https://us-central1-edenxicensus.cloudfunctions.net/collectCharacterProfiles', {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
+        axios.get('https://us-central1-edenxicensus.cloudfunctions.net/collectCharacterProfiles')
         .then(function (response) {
             console.log('success');
         })
@@ -212,10 +216,10 @@ exports.updateCharacterTotalsScheduled = functions.pubsub.schedule('0 * * * *')
 
 /**
  * Update profile totals on a schedule.
- * Run every 30 minutes.
+ * Run every hour.
  * @type {HttpsFunction}
  */
-exports.updateProfileTotalsScheduled = functions.pubsub.schedule('*/30 * * * *')
+exports.updateProfileTotalsScheduled = functions.pubsub.schedule('0 * * * *')
     .onRun((context) => {
         console.log('Updating profile totals...');
         let last_updated = h.now();
@@ -254,18 +258,20 @@ exports.calculateCharactersOnlineAverages = functions.database.ref('/data/charac
         ref.once('value')
             .then(function (snapshot) {
                 if (_.keys(snapshot.val()).length > 1) {
-                    avgs['online'] = h.avg(_.map(snapshot.val(), 'online')).toFixed(2);
-                    avgs['unique'] = h.avg(_.map(snapshot.val(), 'unique')).toFixed(2);
+                    let onlineData = _.map(snapshot.val(), 'online');
+                    let uniqueData = _.map(snapshot.val(), 'unique');
+                    avgs['online'] = h.avg(onlineData).toFixed(2);
+                    avgs['online-min'] = Math.min(...onlineData);
+                    avgs['online-max'] = Math.max(...onlineData);
+                    avgs['unique'] = h.avg(uniqueData).toFixed(2);
+                    avgs['unique-min'] = Math.min(...uniqueData);
+                    avgs['unique-max'] = Math.max(...uniqueData);
                     ref.remove()
                         .then(function () {
                             let ref = admin.database().ref(
                                 `/data/characters/averages/online/${ prevDate.format('Y-M-D') }/calculated`
                             );
-                            ref.set({
-                                online: avgs['online'],
-                                unique: avgs['unique'],
-                                last_updated: h.now()
-                            })
+                            ref.set(_.merge(avgs, {'last_updated': h.now()}))
                             .then(function () {
                                 console.log('success')
                             })
@@ -287,16 +293,16 @@ exports.calculateCharactersTotalAverages = functions.database.ref('/data/charact
         ref.once('value')
             .then(function (snapshot) {
                 if (_.keys(snapshot.val()).length > 1) {
-                    avgs['total'] = h.avg(_.map(snapshot.val(), 'total')).toFixed(2);
+                    let totalData = _.map(snapshot.val(), 'total');
+                    avgs['total'] = h.avg(totalData).toFixed(2);
+                    avgs['total-min'] = Math.min(...totalData);
+                    avgs['total-max'] = Math.max(...totalData);
                     ref.remove()
                         .then(function () {
                             let ref = admin.database().ref(
                                 `/data/characters/averages/total/${ prevDate.format('Y-M-D') }/calculated`
                             );
-                            ref.set({
-                                total: avgs['total'],
-                                last_updated: h.now()
-                            })
+                            ref.set(_.merge(avgs, {'last_updated': h.now()}))
                             .then(function () {
                                 console.log('success')
                             })
@@ -318,16 +324,16 @@ exports.calculateProfilesTotalAverages = functions.database.ref('/data/profiles/
         ref.once('value')
             .then(function (snapshot) {
                 if (_.keys(snapshot.val()).length > 1) {
-                    avgs['total'] = h.avg(_.map(snapshot.val(), 'total')).toFixed(2);
+                    let totalData = _.map(snapshot.val(), 'total');
+                    avgs['total'] = h.avg(totalData).toFixed(2);
+                    avgs['total-min'] = Math.min(...totalData);
+                    avgs['total-max'] = Math.max(...totalData);
                     ref.remove()
                         .then(function () {
                             let ref = admin.database().ref(
                                 `/data/profiles/averages/total/${ prevDate.format('Y-M-D') }/calculated`
                             );
-                            ref.set({
-                                total: avgs['total'],
-                                last_updated: h.now()
-                            })
+                            ref.set(ref.set(_.merge(avgs, {'last_updated': h.now()})));
                         });
                 }
             })
@@ -352,7 +358,7 @@ exports.calculateProfilesTotalAverages = functions.database.ref('/data/profiles/
 =======================================================================================================================*/
 
 exports.generateCensusData = functions.https.onRequest(async(req, res) => {
-
+  /*  let ref = admin.database().ref(`/data/snapshots/daily/${}`)*/
 });
 
 /* Utils
@@ -371,13 +377,45 @@ exports.updateOnlineCharacters = functions.https.onRequest(async(req, res) => {
                 return char;
             });
             ref.update(updates);
-        }).then(function () {
+        })
+        .then(function () {
             if (total) {
                 console.log(`updating ${ total } characters`);
             } else {
                 console.log('no characters updated');
             }
-        }).then(function () {
+        })
+        .then(function () {
+            res.status(200).send(`done : ${ h.now() }`);
+        });
+});
+
+exports.removeUnlinkedProfiles = functions.runWith({
+    memory: '1GB'
+}).https.onRequest(async(req, res) => {
+    console.log('Removing unlinked profiles...');
+    let ref = admin.database().ref('/profiles');
+    ref.once('value')
+        .then(function(snapshot) {
+            _.values(snapshot.val()).forEach(function(profile, index) {
+                let ref = admin.database().ref(`/characters/${ profile.charname }`);
+                ref.once('value')
+                    .then(function(snapshot) {
+                        if ( ! snapshot.exists() ) {
+                            console.log("Removing profile...");
+                            ref = admin.database().ref(`/profiles/${ profile.charid }`);
+                            ref.remove();
+                            ref = admin.database().ref('/data/profiles/removed');
+                            ref.once('value')
+                                .then(function (snapshot) {
+                                    ref.set(snapshot.val() + 1)
+                                })
+                        }
+                    })
+            });
+
+        })
+        .then(function() {
             res.status(200).send(`done : ${ h.now() }`);
         });
 });
