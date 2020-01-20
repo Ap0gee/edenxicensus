@@ -1,5 +1,7 @@
-export function craftsTransformer(object, model) {
-    window._.values(object.crafts).forEach(function(craft) {
+const _ = require('lodash');
+
+function craftsTransformer(object, model) {
+    _.values(object.crafts).forEach(function(craft) {
         if (craft.level) {
             let craftKey = craft.name.toLowerCase();
             model.crafts[craftKey].total_levels += craft.level;
@@ -8,3 +10,4 @@ export function craftsTransformer(object, model) {
         }
     });
 }
+module.exports = { craftsTransformer };

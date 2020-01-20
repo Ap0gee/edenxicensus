@@ -11,6 +11,20 @@ const admin = require('firebase-admin');
 
 admin.initializeApp();
 
+const censusModel = require('./models/census-data.model');
+const  { craftsTransformer } = require('./transformers/from-object/crafts.transformer');
+const  { facesTransformer} = require("./transformers/from-object/faces.transformer");
+const  { jobsTransformer } = require("./transformers/from-object/jobs.transformer");
+const  { nationsTransformer} = require("./transformers/from-object/nations.transformer");
+const  { racesTransformer} = require("./transformers/from-object/races.transformer");
+const  { gendersTransformer} = require("./transformers/from-object/genders.transformer");
+const  { sizesTransformer } = require("./transformers/from-object/sizes.transformer");
+const  { raceSizesTransformer} = require("./transformers/from-object/race-sizes.transformer");
+const  { namesTransformer} = require("./transformers/from-object/names.transformer");
+const  { mentorsTransformer } = require("./transformers/from-object/mentors.transformer");
+const  { raceGendersTransformer} = require("./transformers/from-object/race-genders.transformer");
+const  { titlesTransformer} = require("./transformers/from-object/titles.transformer");
+
 /* Collect Online Characters
 =======================================================================================================================*/
 
@@ -357,9 +371,56 @@ exports.calculateProfilesTotalAverages = functions.database.ref('/data/profiles/
 /* Generate and Store Census Data
 =======================================================================================================================*/
 
-exports.generateCensusData = functions.https.onRequest(async(req, res) => {
-  /*  let ref = admin.database().ref(`/data/snapshots/daily/${}`)*/
+exports.generateCensusSnapshot = functions.runWith({
+    memory: '1GB'
+}).https.onRequest(async(req, res) => {
+    console.log('Generating census snapshot');
+    let ref = admin.database().ref('/profiles');
+    ref.once('value')
+        .then(function (snapshot) {
+            let profiles = snapshot.val();
+            _.values(profiles).forEach(function(profile) {
+                craftsTransformer(profile, censusModel);
+                facesTransformer(profile, censusModel);
+                jobsTransformer(profile, censusModel);
+                nationsTransformer(profile, censusModel);
+                racesTransformer(profile, censusModel);
+                gendersTransformer(profile, censusModel);
+                sizesTransformer(profile, censusModel);
+                raceSizesTransformer(profile, censusModel);
+                namesTransformer(profile, censusModel);
+                mentorsTransformer(profile, censusModel);
+                raceGendersTransformer(profile, censusModel);
+                titlesTransformer(profile, censusModel);
+            });
+        })
+        .then(function () {
+            let ref = admin.database().ref(`/data/snapshots/${ h.now('Y-M') }/${ h.now('Y-M-D') }`);
+            ref.set(censusModel)
+                .then(function() {
+                    console.log('success');
+                    res.status(200).send(`done : ${ h.now() }`);
+                });
+        })
 });
+
+/**
+ * Run the "collectOnlineCharacters" https function on a schedule.
+ * Run every 12 hours.
+ * @type {CloudFunction<unknown>}
+ */
+exports.generateCensusSnapshotScheduled = functions.pubsub.schedule('0 */12 * * *')
+    .onRun((context) => {
+        console.log('Invoking "generateCensusSnapshot" https function...');
+        axios.get('https://us-central1-edenxicensus.cloudfunctions.net/generateCensusSnapshot')
+            .then(function (response) {
+                console.log('success');
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        return null;
+    });
 
 /* Utils
 =======================================================================================================================*/

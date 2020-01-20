@@ -15,16 +15,19 @@
 <script>
     import TheRacesChartsManager from '@cX/chart/manager/TheRacesChartsManager.vue';
     import FirebaseService from '@/services/firebase.service';
-    import censusModel from '@/models/census-data.model';
+   /* import censusModel from '@/models/census-data.model';
     import { craftsTransformer } from '@/transformers/from-object/crafts.transformer';
     import { facesTransformer } from "@/transformers/from-object/faces.transformer";
-    import {  } from "@/transformers/from-object/.transformer";
-   /* import {  } from "@/transformers/from-object/.transformer";
-    import {  } from "@/transformers/from-object/.transformer";
-    import {  } from "@/transformers/from-object/.transformer";
-    import {  } from "@/transformers/from-object/.transformer";
-    import {  } from "@/transformers/from-object/.transformer";*/
-
+    import { jobsTransformer } from "@/transformers/from-object/jobs.transformer";
+    import { nationsTransformer } from "@/transformers/from-object/nations.transformer";
+    import { racesTransformer } from "@/transformers/from-object/races.transformer";
+    import { gendersTransformer } from "@/transformers/from-object/genders.transformer";
+    import { sizesTransformer } from "@/transformers/from-object/sizes.transformer";
+    import { raceSizesTransformer } from "@/transformers/from-object/race-sizes.transformer";
+    import { namesTransformer } from "@/transformers/from-object/names.transformer";
+    import { mentorsTransformer } from "@/transformers/from-object/mentors.transformer";
+    import { raceGendersTransformer } from "@/transformers/from-object/race-genders.transformer";
+    import { titlesTransformer } from "@/transformers/from-object/titles.transformer";*/
 
     export default {
         name: 'app',
@@ -35,17 +38,28 @@
 
         ],
         created() {
-            let firebaseService = new FirebaseService(window._config.FIREBASE_CONFIG);
+           /* let firebaseService = new FirebaseService(window._config.FIREBASE_CONFIG);
             firebaseService.database.ref('/profiles').once('value')
                 .then(function (snapshot) {
                     let profiles = snapshot.val();
+                    console.log(window._.mapValues(profiles, 'status'));
                     window._.values(profiles).forEach(function(profile) {
                         craftsTransformer(profile, censusModel);
                         facesTransformer(profile, censusModel);
+                        jobsTransformer(profile, censusModel);
+                        nationsTransformer(profile, censusModel);
+                        racesTransformer(profile, censusModel);
+                        gendersTransformer(profile, censusModel);
+                        sizesTransformer(profile, censusModel);
+                        raceSizesTransformer(profile, censusModel);
+                        namesTransformer(profile, censusModel);
+                        mentorsTransformer(profile, censusModel);
+                        raceGendersTransformer(profile, censusModel);
+                        titlesTransformer(profile, censusModel);
                     });
                 }).then(function () {
                     console.log(censusModel)
-                })
+                })*/
         },
         mounted() {
 
