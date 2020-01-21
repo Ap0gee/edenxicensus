@@ -263,6 +263,11 @@ exports.updateProfileTotalsScheduled = functions.pubsub.schedule('0 * * * *')
 /* Calculate Collected Resource Averages
 =======================================================================================================================*/
 
+/**
+ * Calculate averages of online characters, condense stats into one object.
+ * Run on new folder creation.
+ * @type {CloudFunction<DataSnapshot>}
+ */
 exports.calculateCharactersOnlineAverages = functions.database.ref('/data/characters/averages/online/{date}')
     .onCreate((snapshot, context) => {
         console.log('Calculating characters online averages...');
@@ -298,6 +303,11 @@ exports.calculateCharactersOnlineAverages = functions.database.ref('/data/charac
         return null;
     });
 
+/**
+ * Calculate averages of total characters, condense stats into one object.
+ * Run on new folder creation.
+ * @type {CloudFunction<DataSnapshot>}
+ */
 exports.calculateCharactersTotalAverages = functions.database.ref('/data/characters/averages/total/{date}')
     .onCreate((snapshot, context) => {
         console.log('Calculating characters total averages...');
@@ -329,6 +339,11 @@ exports.calculateCharactersTotalAverages = functions.database.ref('/data/charact
         return null;
     });
 
+/**
+ * Calculate averages of total profiles, condense stats into one object.
+ * Run on new folder creation.
+ * @type {CloudFunction<DataSnapshot>}
+ */
 exports.calculateProfilesTotalAverages = functions.database.ref('/data/profiles/averages/total/{date}')
     .onCreate((snapshot, context) => {
         console.log('Calculating profiles total averages...');
@@ -368,9 +383,13 @@ exports.calculateProfilesTotalAverages = functions.database.ref('/data/profiles/
         return null;
     });
 
-/* Generate and Store Census Data
+/* Create Census Data Snapshots
 =======================================================================================================================*/
 
+/**
+ * Gather and transform stored data to create a census snapshot.
+ * @type {TriggerAnnotated & ((req: e.Request, resp: e.Response) => void)}
+ */
 exports.generateCensusSnapshot = functions.runWith({
     memory: '1GB'
 }).https.onRequest(async(req, res) => {
@@ -396,7 +415,7 @@ exports.generateCensusSnapshot = functions.runWith({
         })
         .then(function () {
             let ref = admin.database().ref(`/data/snapshots/${ h.now('Y-M') }/${ h.now('Y-M-D') }`);
-            ref.set(censusModel)
+            ref.set(_.merge(censusModel, {'last_updated': h.now()}))
                 .then(function() {
                     console.log('success');
                     res.status(200).send(`done : ${ h.now() }`);
@@ -405,7 +424,7 @@ exports.generateCensusSnapshot = functions.runWith({
 });
 
 /**
- * Run the "collectOnlineCharacters" https function on a schedule.
+ * Run the "generateCensusSnapshot" https function on a schedule.
  * Run every 12 hours.
  * @type {CloudFunction<unknown>}
  */
@@ -425,6 +444,10 @@ exports.generateCensusSnapshotScheduled = functions.pubsub.schedule('0 */12 * * 
 /* Utils
 =======================================================================================================================*/
 
+/**
+ * Add the "needs_read" and "last_read" fields to all character objects that do not already posses them.
+ * @type {HttpsFunction}
+ */
 exports.updateOnlineCharacters = functions.https.onRequest(async(req, res) => {
     let ref = admin.database().ref('/characters');
     let total = 0;
@@ -451,6 +474,10 @@ exports.updateOnlineCharacters = functions.https.onRequest(async(req, res) => {
         });
 });
 
+/**
+ * Remove profiles that do not have an associated character object.
+ * @type {TriggerAnnotated & ((req: e.Request, resp: e.Response) => void)}
+ */
 exports.removeUnlinkedProfiles = functions.runWith({
     memory: '1GB'
 }).https.onRequest(async(req, res) => {

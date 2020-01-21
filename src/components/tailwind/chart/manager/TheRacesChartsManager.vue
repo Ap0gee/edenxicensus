@@ -43,15 +43,12 @@
 
     export default {
         mixins: [
-            ChartManagerMixin
         ],
         data: function () {
             return {
                 isLoading: false,
-                raceData: [],
                 doughnutChart: {
                 },
-                races: ["Hume", "Elvaan", "Tarutaru", "Mithra", "Galka"],
             }
         },
         mounted() {
