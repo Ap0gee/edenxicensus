@@ -66,7 +66,7 @@ module.exports = {
     },
     "genders" : {
         "female" : 1084,
-            "male" : 1468
+        "male" : 1468
     },
     "jobs" : {
         "blm" : {

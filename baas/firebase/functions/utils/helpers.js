@@ -1,7 +1,7 @@
 const moment = require('moment');
 
 module.exports = {
-    now: function(format="Y-M-D h:m:s") {
+    now: function(format="Y-M-D H:M:S") {
         let now = moment();
         return format ? now.format(format) : now;
     },

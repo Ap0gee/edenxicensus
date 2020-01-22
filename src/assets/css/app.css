@@ -1,0 +1,31 @@
+#app {
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: normal;
+    text-align: center;
+    color: #FFF;
+    background-color: #303030;
+}
+
+/* Smart Widget Overrides
+====================================================================================================================== */
+#app .widget-header__title {
+    font-size: 1.5em;
+    color: rgba(255, 255, 255, 0.87);
+}
+#app .smartwidget {
+    background-color: #42424242;
+    box-shadow: 0 0 10px 0 #212121;
+    border: none;
+}
+#app .widget-header {
+    border: none;
+}
+#app .widget-header__toolbar a {
+    color: #c3ac5c;
+}
+#app .widget-header__subtitle {
+    font-size: .5em;
+    color: rgba(255, 255, 255, 0.54);
+}

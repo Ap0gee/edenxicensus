@@ -4,20 +4,27 @@ export default {
             type: [Object],
             default: () => ({})
         },
-        options: {
-            type: [Object],
-            default: () => ({})
-        }
     },
     data: function () {
         return {
-            chart: {
+            snapshot: {
                 data: this.data,
-                options: this.options
+            },
+            chart: {
+                data: {},
+                options: {}
             }
         }
     },
     computed: {
+        censusData: {
+            get: function() {
+                return this.snapshot.data;
+            },
+            set: function(val) {
+                this.snapshot.data = val;
+            }
+        },
         chartData: {
             get: function() {
                 return this.chart.data;
