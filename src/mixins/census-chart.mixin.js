@@ -13,6 +13,10 @@ export default {
             default: () => ((model) => {
                 return model;
             })
+        },
+        title: {
+            type: [String],
+            default: () => ("")
         }
     },
     data: function () {
@@ -22,7 +26,8 @@ export default {
             },
             chart: {
                 data: {},
-                options: this.options
+                options: this.options,
+                title: this.title
             }
         };
     },
@@ -52,6 +57,14 @@ export default {
             },
             set: function(val) {
                 this.chart.options = val;
+            }
+        },
+        chartTitle: {
+            get: function() {
+                return this.chart.title;
+            },
+            set: function(val) {
+                this.chart.title = val;
             }
         },
         styles() {

@@ -7,12 +7,12 @@
                 </smart-widget>
             </smart-widget-grid>
             <smart-widget-grid :layout="this.grid.layouts.body" :isStatic="true">
-                <smart-widget slot="0" title="Total Characters" subTitle="testing" :loading="isLoading">
+                <smart-widget slot="0" title="RACE AND GENDER DISTRIBUTION" subTitle="" :loading="isLoading">
                     <div class="layout-center chart-container">
                         <hr class="sep"/>
-                        <CensusBarChart v-bind="this.charts.bar.race_genders"/>
+                        <CensusBarChart v-bind="this.charts.bar.race_genders_all"/>
                         <hr class="sep"/>
-                        <CensusBarChart v-bind="this.charts.bar.race_genders"/>
+                        <CensusBarChart v-bind="this.charts.bar.race_genders_online"/>
                     </div>
                 </smart-widget>
                 <smart-widget slot="1" title="1" :loading="isLoading">
@@ -74,16 +74,23 @@
                         ],
                         body: [
                             { x: 0, y: 0, w: 12, h: 17, i: "1" },
-                            { x: 0, y: 0, w: 12, h: 17, i:  "0" }
+                            { x: 0, y: 0, w: 12, h: 20, i:  "0" }
                         ]
                     }
                 },
                 charts: {
                     bar: {
-                        race_genders: {
+                        race_genders_all: {
                             data: this.censusSnapshot,
                             options: this.getCommonChartOptions({}),
-                            transformer: raceGendersChartTransformer
+                            transformer: raceGendersChartTransformer,
+                            title: "All Characters"
+                        },
+                        race_genders_online: {
+                            data: this.censusSnapshot,
+                            options: this.getCommonChartOptions({}),
+                            transformer: raceGendersChartTransformer,
+                            title: "Active Characters"
                         }
                     }
                 }

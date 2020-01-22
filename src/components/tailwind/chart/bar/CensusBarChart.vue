@@ -1,6 +1,9 @@
 <template>
-    <div class="chart bar-chart">
-        <BaseBarChart :styles=this.styles v-bind="this.chart "/>
+    <div>
+        <div class="chart-title" v-text="this.chartTitle"></div>
+        <div class="chart bar-chart">
+            <BaseBarChart :styles=this.styles v-bind="this.chart "/>
+        </div>
     </div>
 </template>
 
