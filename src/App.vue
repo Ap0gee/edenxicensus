@@ -1,10 +1,18 @@
 <template>
     <main id="app">
         <GridWidgetLayout>
-            <smart-widget-grid :layout="layout" :resizable="false">
+            <smart-widget-grid :layout="this.grid.layouts.head" :isStatic="true">
+                <smart-widget slot="0" simple>
+                    <div class="layout-center"></div>
+                </smart-widget>
+            </smart-widget-grid>
+            <smart-widget-grid :layout="this.grid.layouts.body" :isStatic="true">
                 <smart-widget slot="0" title="Total Characters" subTitle="testing" :loading="isLoading">
-                    <div class="layout-center">
-                         <RacesAndGendersBarChart :data="eden.data.censusSnapshot"></RacesAndGendersBarChart>
+                    <div class="layout-center chart-container">
+                        <hr class="sep"/>
+                        <CensusBarChart v-bind="this.charts.bar.race_genders"/>
+                        <hr class="sep"/>
+                        <CensusBarChart v-bind="this.charts.bar.race_genders"/>
                     </div>
                 </smart-widget>
                 <smart-widget slot="1" title="1" :loading="isLoading">
@@ -20,14 +28,15 @@
     import FirebaseService from '@/services/firebase.service';
     import censusSnapshot from '@/misc/test_data/census-snapshot';
     import GridWidgetLayout from "@/components/tailwind/layout/GridWidgetLayout";
-    import BaseDoughnutChart from "@/components/tailwind/chart/doughnut/BaseDoughnutChart";
-    import RacesAndGendersBarChart from "@/components/tailwind/chart/bar/RacesAndGendersBarChart";
+    import CensusBarChart from "@/components/tailwind/chart/bar/CensusBarChart";
+
+    import { raceGendersChartTransformer } from "@/transformers/from-model/race-genders-chart.transformer";
 
     export default {
         name: 'app',
         components: {
             GridWidgetLayout,
-            RacesAndGendersBarChart
+            CensusBarChart
         },
         mixins: [
 
@@ -55,13 +64,29 @@
                     },
                     data: {
                         onlineCharacters: [],
-                        censusSnapshot: censusSnapshot,
+                        snapshot: censusSnapshot,
                     }
                 },
-                layout: [
-                    { x: 0, y: 0, w: 12, h: 4, i: "1" },
-                    { x: 0, y: 0, w: 12, h: 4, i: "0" },
-                ]
+                grid: {
+                    layouts: {
+                        head: [
+                            { x: 0, y: 0, w: 12, h: 3, i: "0" },
+                        ],
+                        body: [
+                            { x: 0, y: 0, w: 12, h: 17, i: "1" },
+                            { x: 0, y: 0, w: 12, h: 17, i:  "0" }
+                        ]
+                    }
+                },
+                charts: {
+                    bar: {
+                        race_genders: {
+                            data: this.censusSnapshot,
+                            options: this.getCommonChartOptions({}),
+                            transformer: raceGendersChartTransformer
+                        }
+                    }
+                }
             }
         },
         methods: {
@@ -80,6 +105,30 @@
                         self.isLoading = false;
                     });
             },
+            getCommonChartOptions(merged={}) {
+                return window._.merge({
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            fontColor: 'rgba(255, 255, 255, 0.54)'
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                fontColor: 'rgba(255, 255, 255, 0.54)'
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontColor: 'rgba(255, 255, 255, 0.54)',
+                            }
+                        }]
+                    }
+                }, merged);
+            }
         },
         computed: {
             onlineCharacters: {
@@ -88,6 +137,14 @@
                 },
                 set: function (val) {
                     this.eden.data.onlineCharacters = val;
+                }
+            },
+            censusSnapshot: {
+                get: function () {
+                    return this.eden.data.snapshot
+                },
+                set: function (val) {
+                    this.eden.data.snapshot = val;
                 }
             }
         }

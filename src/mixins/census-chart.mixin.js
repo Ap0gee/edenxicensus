@@ -4,6 +4,16 @@ export default {
             type: [Object],
             default: () => ({})
         },
+        options: {
+            type: [Object],
+            default: () => ({})
+        },
+        transformer: {
+            type: [Function],
+            default: () => ((model) => {
+                return model;
+            })
+        }
     },
     data: function () {
         return {
@@ -12,9 +22,12 @@ export default {
             },
             chart: {
                 data: {},
-                options: {}
+                options: this.options
             }
-        }
+        };
+    },
+    created() {
+       this.transform();
     },
     computed: {
         censusData: {
@@ -41,5 +54,15 @@ export default {
                 this.chart.options = val;
             }
         },
+        styles() {
+            return {
+                color: "green"
+            }
+        }
+    },
+    methods: {
+        transform() {
+            this.chartData = this.transformer(this.censusData);
+        }
     }
 }

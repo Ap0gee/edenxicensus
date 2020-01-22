@@ -5,27 +5,96 @@
     font-weight: normal;
     text-align: center;
     color: #FFF;
-    background-color: #303030;
+    background-color: #212121;
+    padding-top: 30px;
 }
 
 /* Smart Widget Overrides
-====================================================================================================================== */
+=======================================================================================================================*/
 #app .widget-header__title {
     font-size: 1.5em;
     color: rgba(255, 255, 255, 0.87);
 }
+
 #app .smartwidget {
-    background-color: #42424242;
-    box-shadow: 0 0 10px 0 #212121;
+    background-color: #303030;
+    box-shadow: 0 0 15px 0 #000000;
     border: none;
 }
+
 #app .widget-header {
     border: none;
 }
+
 #app .widget-header__toolbar a {
     color: #c3ac5c;
 }
+
 #app .widget-header__subtitle {
     font-size: .5em;
     color: rgba(255, 255, 255, 0.54);
+}
+
+#app .vue-grid-item {
+
+}
+
+#app .smart-widget__loading-mask {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #303030;
+}
+
+#app .smart-widget__loading-mask .loading-spinner {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#app .smart-widget__loading-mask .circular {
+    width: 120px;
+    height: 120px;
+}
+
+#app .smart-widget__loading-mask .loading-spinner circle {
+   /*stroke: #03DAC6;*/
+    stroke: #03DAC6
+}
+
+/* Charts
+=======================================================================================================================*/
+#app .chart-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-evenly;
+    height: 100%;
+}
+
+#app .button-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+#app .chart {
+    position: relative;
+    padding: 10px 0;
+    flex: 1 1 auto;
+    width: 100%;
+}
+
+#app .bar-chart {
+
+}
+
+/* Misc
+=======================================================================================================================*/
+
+#app hr.sep {
+    border: 2px solid #03DAC6;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
 }
