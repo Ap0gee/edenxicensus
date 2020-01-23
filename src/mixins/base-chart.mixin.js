@@ -18,21 +18,11 @@ export default {
         }
     },
     computed: {
-        chartData: {
-            get: function() {
-                return this.chart.data;
-            },
-            set: function(val) {
-                this.chart.data = val;
-            }
+        chartData() {
+            return this.chart.data;
         },
-        chartOptions: {
-            get: function() {
-                return this.chart.options;
-            },
-            set: function(val) {
-                this.chart.options = val;
-            }
+        chartOptions() {
+            return this.chart.options;
         },
     }
 }

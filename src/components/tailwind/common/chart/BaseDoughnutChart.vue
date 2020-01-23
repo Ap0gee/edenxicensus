@@ -4,6 +4,7 @@
     import drawTextCenterPlugin from '@/plugins/vue-chart-js/draw-text-center.plugin';
 
     export default {
+        name: "BaseDoughnutChart",
         extends: Doughnut,
         mixins: [
             BaseChartMixin

@@ -1,29 +1,86 @@
+/* Fonts
+=======================================================================================================================*/
+@import url('https://fonts.googleapis.com/css?family=Ruslan+Display&display=swap');
+
+:root {
+    --z-background: 0;
+    --z-app: 100;
+    --z-card: 1000;
+    --z-nav: 10000;
+    --z-modal: 100000;
+    --z-ztop: 1000000;
+}
+
+/* Themes
+=======================================================================================================================*/
+html {
+    --background-color-0: #FFF;
+    --background-color-1: #FFF;
+    --background-color-2: #FFF;
+    --background-color-3: #FFF;
+
+    --text-color-primary: #000;
+    --text-color-secondary: rgba(0, 0, 0, 0.70);
+    --text-color-disabled: rgba(0, 0, 0, 0.50);
+
+    --color-primary: #3700B3;
+    --color-secondary: #03DAC6;
+    --color-accent: #FF3F80;
+}
+
+html[data-theme="dark"] {
+    --background-color-0: #161616;
+    --background-color-1: #1c1c1c;
+    --background-color-2: #282828;
+    --background-color-3: #333333;
+
+    --text-color-primary: #ececed;
+    --text-color-secondary: #9aa0a6;
+
+    --color-primary: #BB86FC;
+    --color-secondary: #03DAC6;
+    --color-accent: #FF3F80;
+}
+
 #app {
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: normal;
     text-align: center;
-    color: #FFF;
-    background-color: #212121;
+    color: var(--text-color-primary);
+    background-color: var(--background-color-0);
     padding-top: 30px;
 }
 
 /* Smart Widget Overrides
 =======================================================================================================================*/
 #app .widget-header__title {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
     font-size: 1.5em;
-    color: rgba(255, 255, 255, 0.87);
+    color: var(--text-color-primary);
+}
+#app .widget-header__title span {
+    position: relative;
+    top: 10px;
+}
+
+#app .widget-body__content {
+
 }
 
 #app .smartwidget {
-    background-color: #303030;
-    box-shadow: none;
+    background-color: var(--background-color-2);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
     border: none;
+    z-index: var(--z-card);
 }
 
 #app .widget-header {
     border: none;
+
 }
 
 #app .widget-header__toolbar a {
@@ -32,18 +89,15 @@
 
 #app .widget-header__subtitle {
     font-size: .5em;
-    color: rgba(255, 255, 255, 0.54);
-}
-
-#app .vue-grid-item {
-
+    color: var(--text-color-secondary);
 }
 
 #app .smart-widget__loading-mask {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background-color: #303030;
+    background-color: var(--background-color-2);
+    z-index: var(--z-card);
 }
 
 #app .smart-widget__loading-mask .loading-spinner {
@@ -59,19 +113,11 @@
 }
 
 #app .smart-widget__loading-mask .loading-spinner circle {
-   /*stroke: #03DAC6;*/
-    stroke: #03DAC6
+    stroke: var(--color-secondary);
 }
 
 /* Charts
 =======================================================================================================================*/
-#app .chart-container {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-evenly;
-    height: 100%;
-}
-
 #app .button-container {
     display: flex;
     flex-flow: row nowrap;
@@ -80,8 +126,6 @@
 }
 
 #app .chart {
-    position: relative;
-    padding: 10px 0;
     flex: 1 1 auto;
     width: 100%;
 }
@@ -93,14 +137,63 @@
 #app .chart-title {
     font-size: 1.3em;
     color: rgba(255, 255, 255, 0.54);
-    margin: 15px 0;
+}
+
+/* Fixed Nav
+ ======================================================================================================================*/
+#app .navbar.vue-fixed-header--isFixed {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: var(--z-card);
+}
+
+#app .navbar {
+    width: 100%;
+    height: 50px;
+    padding: 12px 20px;
+    z-index: var(--z-nav);
 }
 
 /* Misc
 =======================================================================================================================*/
 
 #app hr.sep {
-    border: 2px solid #03DAC6;
+    border: 2px solid var(--color-accent);
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
+}
+
+#app .flex-row__nowrap {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+#app .eden-branding__logo {
+    color: var(--color-secondary);
+    display: block;
+    font-family: 'Ruslan Display','Trebuchet MS','Lucida Sans Unicode','Lucida Grande','Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+    letter-spacing: -0.25rem;
+    margin: 0;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 var(--color-secondary), 0 6px 1px rgba(0,0,0,0.1), 0 0 5px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.3), 0 3px 5px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.25), 0 10px 10px var(--color-secondary), 0 20px 20px rgba(0,0,0,0.15);
+}
+
+#app .crystal {
+    position: absolute;
+    top: 65%;  /* position the top  edge of the element at the middle of the parent */
+    left: 50%; /* position the left edge of the element at the middle of the parent */
+    transform: translate(-50%, -50%);
+    min-width: 200px;
+    min-height: 200px;
+    z-index: var(--z-ztop);
+}
+
+#app .particles-js-canvas-el {
+    position: fixed;
+    z-index: var(--z-background);
+    overflow: hidden;
 }

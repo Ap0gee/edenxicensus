@@ -43,34 +43,17 @@ export default {
                 this.snapshot.data = val;
             }
         },
-        chartData: {
-            get: function() {
-                return this.chart.data;
-            },
-            set: function(val) {
-                this.chart.data = val;
-            }
+        chartData() {
+            return this.chart.data;
         },
-        chartOptions: {
-            get: function() {
-                return this.chart.options;
-            },
-            set: function(val) {
-                this.chart.options = val;
-            }
+        chartOptions() {
+            return this.chart.options;
         },
-        chartTitle: {
-            get: function() {
-                return this.chart.title;
-            },
-            set: function(val) {
-                this.chart.title = val;
-            }
+        chartTitle() {
+            return this.chart.title;
         },
         styles() {
-            return {
-                color: "green"
-            }
+            return {}
         }
     },
     methods: {

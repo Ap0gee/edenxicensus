@@ -1,14 +1,14 @@
 <template>
-    <div>
-        <div class="chart-title" v-text="this.chartTitle"></div>
+    <div class="flex flex-col flex-no-wrap flex-auto justify-center">
+        <div class="chart-title mt-6 mb-6" v-text="this.chartTitle"></div>
         <div class="chart bar-chart">
-            <BaseBarChart :styles=this.styles v-bind="this.chart "/>
+            <base-bar-chart :styles=this.styles v-bind="this.chart "/>
         </div>
     </div>
 </template>
 
 <script>
-    import BaseBarChart from "./BaseBarChart";
+    import BaseBarChart from "@cX/common/chart/BaseBarChart";
     import CensusChartMixin from '@/mixins/census-chart.mixin';
 
     export default {

@@ -230,10 +230,10 @@ exports.updateCharacterTotalsScheduled = functions.pubsub.schedule('0 * * * *')
 
 /**
  * Update profile totals on a schedule.
- * Run every 45 minutes.
- * @type {HttpsFunction}
+ * Run every hour.
+ * @type {CloudFunction<unknown>}
  */
-exports.updateProfileTotalsScheduled = functions.pubsub.schedule('*/45 * * * *')
+exports.updateProfileTotalsScheduled = functions.pubsub.schedule('0 * * * *')
     .onRun((context) => {
         console.log('Updating profile totals...');
         let last_updated = h.now();

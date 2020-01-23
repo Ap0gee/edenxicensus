@@ -3,6 +3,7 @@
     import BaseChartMixin from '@/mixins/base-chart.mixin';
 
     export default {
+        name: "BaseBarChart",
         extends: Bar,
         mixins: [
             BaseChartMixin

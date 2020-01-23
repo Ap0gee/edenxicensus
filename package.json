@@ -13,6 +13,7 @@
     "firebase:log": "cd baas/firebase/functions && firebase functions:log"
   },
   "dependencies": {
+    "animejs": "^3.1.0",
     "axios": "^0.19.1",
     "chart.js": "^2.9.3",
     "core-js": "^3.4.4",
@@ -25,6 +26,9 @@
     "vue": "^2.6.10",
     "vue-chartjs": "^3.5.0",
     "vue-firestore": "^0.3.22",
+    "vue-fixed-header": "^3.2.13",
+    "vue-particle-effect-buttons": "^1.0.4",
+    "vue-particles": "^1.0.9",
     "vue-progressbar": "^0.7.5",
     "vue-smart-widget": "^0.5.5"
   },
