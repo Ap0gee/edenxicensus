@@ -1,6 +1,7 @@
 export default {
     id: 'DrawTextCenter',
     beforeDraw: function (chart) {
+        console.log('before draw');
         if (chart.config.options.elements.center) {
             //Get ctx from string
             var ctx = chart.chart.ctx;
@@ -9,11 +10,12 @@ export default {
             var centerConfig = chart.config.options.elements.center;
             var fontStyle = centerConfig.fontStyle || 'Arial';
             var txt = centerConfig.text;
+            var fontSize = centerConfig.fontSize; //in pixels
             var color = centerConfig.color || '#000';
             var sidePadding = centerConfig.sidePadding || 20;
             var sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 2);
             //Start with a base font of 30px
-            ctx.font = "30px " + fontStyle;
+            ctx.font = `${ fontSize }px ${ fontStyle }`;
 
             //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
             var stringWidth = ctx.measureText(txt).width;
@@ -21,7 +23,7 @@ export default {
 
             // Find out how much the font can grow in width.
             var widthRatio = elementWidth / stringWidth;
-            var newFontSize = Math.floor(30 * widthRatio);
+            var newFontSize = Math.floor(fontSize * widthRatio);
             var elementHeight = (chart.innerRadius * 2);
 
             // Pick a new font size so it will not be larger than the height of label.

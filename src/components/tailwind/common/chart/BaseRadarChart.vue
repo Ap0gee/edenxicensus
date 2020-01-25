@@ -1,19 +1,18 @@
 <script>
-    import {Bar} from 'vue-chartjs';
+    import {Radar} from 'vue-chartjs';
     import BaseChartMixin from '@/mixins/base-chart.mixin';
 
     export default {
-        name: "BaseBarChart",
-        extends: Bar,
+        name: "BaseRadarChart",
+        extends: Radar,
         mixins: [
             BaseChartMixin
         ],
-        mounted () {
+        mounted() {
             this.renderChart(this.chartData, this.chartOptions)
         },
         watch: {
             chartData: function(newVal) {
-                console.log('re-rendering chart');
                 this.renderChart(this.chartData, this.chartOptions)
             }
         }

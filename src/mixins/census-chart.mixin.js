@@ -32,7 +32,7 @@ export default {
         };
     },
     created() {
-       this.transform();
+        this.chartData = this.transformer(this.censusData);
     },
     computed: {
         censusData: {
@@ -43,8 +43,13 @@ export default {
                 this.snapshot.data = val;
             }
         },
-        chartData() {
-            return this.chart.data;
+        chartData: {
+            get: function () {
+                return this.chart.data;
+            },
+            set: function(val) {
+                this.chart.data = val;
+            }
         },
         chartOptions() {
             return this.chart.options;
@@ -56,8 +61,12 @@ export default {
             return {}
         }
     },
-    methods: {
-        transform() {
+    watch: {
+        data: function(newVal) {
+            this.censusData = newVal;
+        },
+        censusData: function(newVal) {
+            console.log('updating chart data', this.chartData);
             this.chartData = this.transformer(this.censusData);
         }
     }

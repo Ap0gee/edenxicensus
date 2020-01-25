@@ -23,6 +23,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "path": "^0.12.7",
+    "promise": "^8.0.3",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.5.0",
     "vue-firestore": "^0.3.22",

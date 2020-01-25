@@ -2,13 +2,15 @@
 =======================================================================================================================*/
 @import url('https://fonts.googleapis.com/css?family=Ruslan+Display&display=swap');
 
+/* Root
+=======================================================================================================================*/
 :root {
     --z-background: 0;
     --z-app: 100;
-    --z-card: 1000;
-    --z-nav: 10000;
-    --z-modal: 100000;
-    --z-ztop: 1000000;
+    --z-card: 200000;
+    --z-nav: 300000;
+    --z-modal: 400000;
+    --z-ztop: 500000;
 }
 
 /* Themes
@@ -36,6 +38,7 @@ html[data-theme="dark"] {
 
     --text-color-primary: #ececed;
     --text-color-secondary: #9aa0a6;
+    --text-color-disabled: rgba(255, 255, 255, 0.54);
 
     --color-primary: #BB86FC;
     --color-secondary: #03DAC6;
@@ -62,6 +65,7 @@ html[data-theme="dark"] {
     font-size: 1.5em;
     color: var(--text-color-primary);
 }
+
 #app .widget-header__title span {
     position: relative;
     top: 10px;
@@ -80,7 +84,6 @@ html[data-theme="dark"] {
 
 #app .widget-header {
     border: none;
-
 }
 
 #app .widget-header__toolbar a {
@@ -116,6 +119,35 @@ html[data-theme="dark"] {
     stroke: var(--color-secondary);
 }
 
+/* Particle Effect Button Overrides
+=======================================================================================================================*/
+.vue-particle-effect-button {
+    flex: auto;
+    height: 100%;
+}
+#app .navBar .vue-particle-effect-button,
+#app .navBar .particles,
+#app .navBar .particles-button {
+     max-height: 50px;
+}
+
+#app .crystal-power .vue-particle-effect-button,
+#app .crystal-power .particles,
+#app .crystal-power .particles-button {
+    max-height: 75px;
+    max-width: 75px;
+}
+
+#app .particles-wrapper {
+    height: 100%;
+}
+#app .particles-button  {
+
+}
+#app .particles-button {
+    padding: 10px 20px;
+}
+
 /* Charts
 =======================================================================================================================*/
 #app .button-container {
@@ -141,12 +173,18 @@ html[data-theme="dark"] {
 
 /* Fixed Nav
  ======================================================================================================================*/
+#app .navbar.vue-fixed-header {
+    padding: 0 20px;
+}
+
 #app .navbar.vue-fixed-header--isFixed {
     position: fixed;
-    left: 0;
-    top: 0;
     width: 100%;
+    max-width: 1256px;
     z-index: var(--z-card);
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
 }
 
 #app .navbar {
@@ -156,18 +194,57 @@ html[data-theme="dark"] {
     z-index: var(--z-nav);
 }
 
+/* Crystal
+ ======================================================================================================================*/
+#app .crystal-container--isFixed
+{
+    position: fixed;
+    width: 100%;
+    top: -125%;
+    left: 0;
+    transform: translate(-50%, 0%);
+    min-width: 100px;
+    min-height: 100px;
+    z-index: var(--z-nav);
+}
+
+#app .crystal
+{
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 200px;
+    min-height: 200px;
+    z-index: var(--z-nav);
+}
+
+#app .crystal-btn {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: 150px;
+    min-width: 100px;
+    z-index: calc(var(--z-nav) + 1);
+    cursor: pointer;
+}
+
+#app .crystal-power {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: calc(var(--z-nav) - 2);
+}
+
+
 /* Misc
 =======================================================================================================================*/
-
 #app hr.sep {
     border: 2px solid var(--color-accent);
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
-}
-
-#app .flex-row__nowrap {
-    display: flex;
-    flex-flow: row nowrap;
 }
 
 #app .eden-branding__logo {
@@ -182,18 +259,149 @@ html[data-theme="dark"] {
     text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 var(--color-secondary), 0 6px 1px rgba(0,0,0,0.1), 0 0 5px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.3), 0 3px 5px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.25), 0 10px 10px var(--color-secondary), 0 20px 20px rgba(0,0,0,0.15);
 }
 
-#app .crystal {
-    position: absolute;
-    top: 65%;  /* position the top  edge of the element at the middle of the parent */
-    left: 50%; /* position the left edge of the element at the middle of the parent */
-    transform: translate(-50%, -50%);
-    min-width: 200px;
-    min-height: 200px;
-    z-index: var(--z-ztop);
-}
-
 #app .particles-js-canvas-el {
     position: fixed;
     z-index: var(--z-background);
     overflow: hidden;
+}
+
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Animation Classes
+ ======================================================================================================================*/
+.shake {
+    animation: shake .7142857s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate(-50%, -50%);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+.hard-shake {
+    animation: hard-shake .7142857s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate(-50%, -50%);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+.shrink {
+    animation: shrink .4285714s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.grow {
+    animation: grow .4285714s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.slide-down {
+    animation: slide-down .4285714s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.shrink-slide-down {
+    animation: shrink-slide-down .4285714s linear both;
+}
+
+.shudder {
+    animation: shudder .1428571s 0s infinite cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Animation Keyframes
+ ======================================================================================================================*/
+@keyframes shake {
+    from,
+    to {
+        transform: translate(-50%, -51%);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translate(-51%, -50%);
+    }
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translate(-49%, -52%);
+    }
+}
+
+@keyframes hard-shake {
+     from,
+     to {
+         transform: translate(-50%, -50%);
+     }
+     10%,
+     30% {
+         transform: translate(-45%, -50%);
+     }
+     50%,
+     70%,
+     90% {
+         transform: translate(-55%, -55%);
+     }
+     20%,
+     40% {
+         transform: translate(-55%, -45%);
+     }
+     60%,
+     80% {
+         transform: translate(-45%, -45%);
+     }
+ }
+
+@keyframes shudder {
+    from,
+    to {
+        transform: translate(-50%, -50%);
+    }
+    10%,
+    30% {
+        transform: translate(-49%, -50%);
+    }
+    50%,
+    70%,
+    90% {
+        transform: translate(-50.5%, -50%);
+    }
+    20%,
+    40% {
+        transform: translate(-49.5%, -50.5%);
+    }
+    60%,
+    80% {
+        transform: translate(-51%, -50%);
+    }
+}
+
+@keyframes shrink {
+    from {
+        transform: scale(1.0);
+    }
+    to {
+        transform: scale(0.5);
+    }
+}
+
+@keyframes grow {
+    from {
+        transform: scale(.5);
+    }
+    to {
+        transform: scale(1.0);
+    }
+}
+
+@keyframes slide-down {
+    from {
+        transform: translate(0%, -100%);
+    }
+    to {
+        transform: translate(0%, 0%);
+    }
 }

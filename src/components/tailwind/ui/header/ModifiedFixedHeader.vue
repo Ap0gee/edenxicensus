@@ -21,11 +21,9 @@
                         ? currentScrollPos > threshold
                         : (hideScrollUp ? false : currentScrollPos > threshold);
                 this.lastScrollTop = currentScrollPos;
-                if (this.isFixed === isFixed) {
-                    return
-                }
+
                 this.isFixed = isFixed;
-                this.$emit('change', this.isFixed);
+                this.$emit('change', this.isFixed, currentScrollPos, threshold);
             };
             this.registerEvent();
         },
@@ -73,8 +71,8 @@
             return {}
         },
         methods: {
-            onChange: function (fixed) {
-                this.$emit('change', fixed)
+            onChange: function (fixed, currentScrollPos, threshold) {
+                this.$emit('change', fixed, currentScrollPos, threshold)
             }
         }
     }
