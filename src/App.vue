@@ -404,6 +404,14 @@
                             averages: {
                                 data: {},
                                 options: this.getCommonChartOptions('line', {
+                                    scales: {
+                                        yAxes: [{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: '# of characters'
+                                            }
+                                        }]
+                                    }
                                 }),
                                 transformer: characterAveragesChartTransformer,
                                 title: "Online Characters"
@@ -413,6 +421,14 @@
                             averages: {
                                 data: {},
                                 options: this.getCommonChartOptions('line', {
+                                    scales: {
+                                        yAxes: [{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: '# of characters'
+                                            }
+                                        }]
+                                    }
                                 }),
                                 transformer: characterAveragesChartTransformer,
                                 title: "All Characters"
@@ -490,7 +506,7 @@
             fetchCharacterAverages(firebaseService) {
                 let self = this;
                 let ref = firebaseService.database.ref(`/data/characters/averages/total`);
-                ref.limitToLast(7)
+                ref.limitToLast(8)
                     .once('value')
                         .then(function (snapshot) {
                             self.characterAverages = snapshot.val();
@@ -498,7 +514,7 @@
                             self.progressIncrease(10);
                         });
                 ref = firebaseService.database.ref(`/data/characters/averages/online`);
-                ref.limitToLast(7)
+                ref.limitToLast(8)
                     .once('value')
                     .then(function (snapshot) {
                         self.onlineAverages = snapshot.val();
