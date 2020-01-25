@@ -1,10 +1,10 @@
 <script>
-    import {Bar} from 'vue-chartjs';
+    import {Line} from 'vue-chartjs';
     import BaseChartMixin from '@/mixins/base-chart.mixin';
 
     export default {
-        name: "BaseBarChart",
-        extends: Bar,
+        name: "BaseLineChart",
+        extends: Line,
         mixins: [
             BaseChartMixin
         ],

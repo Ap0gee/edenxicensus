@@ -2,34 +2,30 @@
     <main id="app">
         <vue-progress-bar />
         <vue-particles
-            color="#dedede"
-            linesColor="#dedede"
-            shapeType="triangle"
-            hoverMode="grab"
-            clickMode="repulse"
             v-bind="this.particles"
+            :key="this.particles.key"
         />
         <grid-widget-layout>
             <smart-widget-grid :layout="this.grid.layouts.head" :isStatic="true">
                 <smart-widget slot="0" simple>
-                    <div class="crystal-container">
+                    <div class="crystal-container" v-if="!this.crystal.condensed">
                         <span class="crystal-btn" @click.prevent="powerCrystal"></span>
                         <span class="crystal-power">
                             <!--<particle-button />-->
                         </span>
-                        <div class="absolute crystal no-select" :class="{'shake': this.crystal.shake, 'hard-shake': this.crystal.hard_shake, 'shudder': this.crystal.shudder }"><img src="/img/crystal.png" width="250" height="250"/></div>
+                        <div class="absolute crystal no-select" :class="{'shake': this.crystal.shake, 'hard-shake': this.crystal.hard_shake, 'shudder': this.crystal.shudder}"><img :class="{'spin': this.crystal.spin}" src="/img/crystal.png" width="250" height="250"/></div>
                     </div>
                 </smart-widget>
             </smart-widget-grid>
             <div class="px-3">
                 <modified-fixed-header v-bind="this.header" v-on:change="onFixedHeaderChange">
                     <div class="flex flex-row flex-no-wrap justify-end max-h-full">
-                        <div class="crystal-container--isFixed w-full h-full" :class="{'shrink': this.crystal.condensed}" v-if="this.crystal.condensed">
+                        <div class="crystal-container--isFixed w-full h-full " :class="{'shrink': this.crystal.condensed}" v-if="this.crystal.condensed">
                             <span class="crystal-btn" @click.prevent="powerCrystal"></span>
                             <span class="crystal-power">
 
                             </span>
-                            <div class="absolute crystal no-select" :class="{'shake': this.crystal.shake, 'hard-shake': this.crystal.hard_shake, 'shudder': this.crystal.shudder }"><img src="/img/crystal.png" width="250" height="250"/></div>
+                            <div class="absolute crystal no-select" :class="{'shake': this.crystal.shake, 'hard-shake': this.crystal.hard_shake, 'shudder': this.crystal.shudder}"><img :class="{'spin': this.crystal.spin}" src="/img/crystal.png" width="250" height="250"/></div>
                         </div>
                         <div class="flex-initial">
 
@@ -39,13 +35,13 @@
             </div>
             <smart-widget-grid :layout="this.grid.layouts.body" :isStatic="true">
                 <smart-widget slot="0" title="CHARACTER TOTALS" subTitle="" :loading="isLoading">
-                    <div class="flex flex-col flex-no-wrap justify-start h-full">
+                    <div class="flex flex-col flex-no-wrap justify-center h-full">
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
                         </div>
                         <div class="flex flex-auto flex-col flex-no-wrap justify-around h-full">
                             <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
-                                <div class="flex-initial text-2xl text-darkDisabled">All Characters*</div>
+                                <div class="flex-initial text-2xl text-darkDisabled">All Characters</div>
                                 <div class="flex-initial text-6xl text-white" v-text="this.totalCharacters"></div>
                             </div>
                             <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
@@ -53,9 +49,33 @@
                                 <div class="flex-initial text-6xl text-white" v-text="this.totalOnline"></div>
                             </div>
                         </div>
+                        <div class="flex flex-col flex-no-wrap flex-initial justify-center">
+                            <hr class="sep"/>
+                        </div>
+
+                        <census-line-chart v-bind="this.charts.line.all.averages" />
+
+                        <div class="flex flex-col flex-no-wrap flex-initial justify-center">
+                            <hr class="sep"/>
+                        </div>
+
+                        <census-line-chart v-bind="this.charts.line.online.averages" />
                     </div>
                 </smart-widget>
-                <smart-widget slot="1" title="RACE AND GENDER DISTRIBUTION" subTitle="" :loading="isLoading">
+
+                <smart-widget slot="1" title="RACE DISTRIBUTION" subTitle="" :loading="isLoading">
+                    <div class="flex flex-col flex-no-wrap flex-initial justify-center">
+                        <hr class="sep"/>
+                    </div>
+                    <div class="flex flex-col flex-no-wrap justify-between h-full">
+
+                        <div class="mt-10">
+                            <census-radar-chart v-bind="this.charts.radar.stacked.races" />
+                        </div>
+                    </div>
+                </smart-widget>
+
+                <smart-widget slot="2" title="GENDER DISTRIBUTION" subTitle="" :loading="isLoading">
                     <div class="flex flex-col flex-no-wrap justify-center h-full">
 
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
@@ -71,17 +91,13 @@
                             <hr class="sep"/>
                         </div>
 
-                        <CensusBarChart v-bind="this.charts.bar.all.race_genders"/>
+                        <census-bar-chart v-bind="this.charts.bar.all.race_genders"/>
 
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
                         </div>
 
-                        <CensusBarChart v-bind="this.charts.bar.online.race_genders"/>
-
-                        <div class="flex flex-col flex-no-wrap flex-auto justify-center">
-
-                        </div>
+                        <census-bar-chart v-bind="this.charts.bar.online.race_genders"/>
                     </div>
                 </smart-widget>
             </smart-widget-grid>
@@ -91,14 +107,17 @@
 
 <script>
     import FirebaseService from '@/services/firebase.service';
+
     import progressBarMixin from '@/mixins/progress-bar.mixin';
     import GridWidgetLayout from "@cX/layout/GridWidgetLayout";
-    import CensusBarChart from "@cX/chart/bar/CensusBarChart";
     import ModifiedFixedHeader from "@cX/ui/header/ModifiedFixedHeader";
-    import CensusDoughnutChart from "@cX/chart/doughnut/CensusDoughnutChart";
     import ParticleButton from "@cX/common/ui/ParticleButton";
 
-    const censusModel = require('@/models/census-data.model');
+    import CensusBarChart from "@cX/chart/bar/CensusBarChart";
+    import CensusDoughnutChart from "@cX/chart/doughnut/CensusDoughnutChart";
+    import CensusRadarChart from "@cX/chart/radar/CensusRadarChart";
+    import CensusLineChart from "@cX/chart/line/CensusLineChart";
+
     const  { craftsTransformer } = require('@/transformers/from-object/crafts.transformer');
     const  { facesTransformer} = require("@/transformers/from-object/faces.transformer");
     const  { jobsTransformer } = require("@/transformers/from-object/jobs.transformer");
@@ -114,8 +133,11 @@
 
     import { raceGendersChartTransformer } from "@/transformers/from-model/race-genders-chart.transformer";
     import { gendersChartTransformer } from "@/transformers/from-model/genders-chart.transformer";
+    import { racesChartTransformer } from "@/transformers/from-model/races-chart.transformer";
+    import { characterAveragesChartTransformer } from "@/transformers/from-model/character-averages-chart.transformer";
 
     const testCensusSnapshot = require('@/misc/test_data/census-snapshot');
+    const censusModel = require('@/models/census-data.model');
 
     export default {
         name: 'app',
@@ -124,32 +146,37 @@
             ModifiedFixedHeader,
             CensusBarChart,
             CensusDoughnutChart,
+            CensusRadarChart,
+            CensusLineChart
            /* ParticleButton*/
         },
         mixins: [
             progressBarMixin
         ],
         created() {
-            //const firebaseService = new FirebaseService(window._config.FIREBASE_CONFIG);
-            this.progressSet(0);
+            const firebaseService = new FirebaseService(window._config.FIREBASE_CONFIG);
 
-           /* this.fetchCharacterResources(firebaseService);
-            this.fetchRemoteSnapshot(firebaseService);
-            this.fetchTotalCharactersCount(firebaseService);*/
+            this.progressSet(0);
             this.isLoading = true;
+
+           /*
+            this.fetchCharacterResources(firebaseService);
+            this.fetchRemoteSnapshot(firebaseService);
+            this.fetchTotalCharactersCount(firebaseService);
+            this.fetch
+            */
+
+            this.fetchCharacterAverages(firebaseService);
+
             this.allSnapshot = testCensusSnapshot;
             this.onlineSnapshot = testCensusSnapshot;
-
             console.log(testCensusSnapshot);
-
             this.totalCharacters = 3103;
             this.totalOnline = 737;
             this.progressFinish();
-
         },
         mounted() {
             let self = this;
-            this.visible = true;
             this.animateCrystal();
 
             window.setInterval(function() {
@@ -160,15 +187,51 @@
                 if (self.crystal.power > 0) {
                     self.crystal.power -= 1;
                 }
+                if (self.crystal.power >= 36) {
+                    let colors = ['#3700B3', '#03DAC6', '#FF3F80'];
+                    let color = colors[Math.floor(Math.random() * 3)];
+                    self.particles.color = color;
+                    self.particles.linesColor = color;
+                    self.particles.shapeType = 'polygon';
+                    self.particles.hoverEffect = false;
+                    self.particles.clickEffect = false;
+                    self.particles.moveSpeed = 9;
+                    self.particles.key = !self.particles.key;
+                }
+                else if (self.crystal.power >= 12) {
+                    self.particles.color = "#ff3a29";
+                    self.particles.linesColor = "#ff3a29";
+                    self.particles.shapeType = 'circle';
+                    self.particles.hoverEffect = true;
+                    self.particles.clickEffect = true;
+                    self.particles.hoverMode = 'bubble';
+                    self.particles.clickMode = 'push';
+                    self.particles.moveSpeed = 6;
+                    self.particles.key = 1;
+                }
+                else {
+                    self.particles.color = "#dedede";
+                    self.particles.linesColor= "#dedede";
+                    self.particles.shapeType = 'triangle';
+                    self.particles.hoverEffect = true;
+                    self.particles.clickEffect = true;
+                    self.particles.hoverMode = 'grab';
+                    self.particles.clickMode = 'repulse';
+                    self.particles.moveSpeed = 3;
+                    self.particles.key = 0;
+                }
+
+                if (self.crystal.power < 36) {
+                    self.crystal.spin = false;
+                }
                 if (self.crystal.power < 12) {
                     self.crystal.shudder = false;
                 }
-                self.isLoading = false;
+
             }, 1000);
         },
         data: function () {
             return {
-                visible: false,
                 isLoading: false,
                 coorsProxyUrl: "https://cors-anywhere.herokuapp.com",
                 eden: {
@@ -183,8 +246,10 @@
                     data: {
                         onlineCharacters: [],
                         characterProfiles: [],
-                        totalCharacters: 0,
+                        onlineAverages: [],
+                        characterAverages: [],
                         totalOnline: 0,
+                        totalCharacters: 0,
                         snapshots: {
                             all: {},
                             online: {}
@@ -199,6 +264,7 @@
                     shake: false,
                     hard_shake: false,
                     shudder: false,
+                    spin: false,
                     anim: false,
                     condensed: false
                 },
@@ -212,7 +278,13 @@
                     linesDistance: 150,
                     moveSpeed: 3,
                     hoverEffect: true,
-                    clickEffect: true
+                    clickEffect: true,
+                    color: '#dedede',
+                    linesColor: '#dedede',
+                    shapeType: 'triangle',
+                    hoverMode: 'grab',
+                    clickMode: 'repulse',
+                    key: 0
                 },
                 grid: {
                     layouts: {
@@ -223,8 +295,9 @@
                             { x: 0, y: 0, w: 12, h: 1, i: "0" },
                         ],
                         body: [
-                            { x: 0, y: 0, w: 12, h: 29, i:  "1" },
-                            { x: 0, y: 0, w: 12, h: 8, i:  "0" }
+                            { x: 0, y: 0, w: 12, h: 29, i:  "2" },
+                            { x: 0, y: 0, w: 12, h: 10, i:  "1" },
+                            { x: 0, y: 0, w: 12, h: 26, i:  "0" }
                         ]
                     }
                 },
@@ -269,7 +342,6 @@
                         online: {
                             genders: {
                                 data: {},
-
                                 options: this.getCommonChartOptions('doughnut', {
                                     elements: {
                                         center: {
@@ -287,7 +359,6 @@
                         all: {
                             genders: {
                                 data: {},
-
                                 options: this.getCommonChartOptions('doughnut', {
                                     elements: {
                                         center: {
@@ -302,6 +373,51 @@
                                 transformer: gendersChartTransformer
                             }
                         }
+                    },
+                    radar: {
+                        stacked: {
+                            races: {
+                                data: [], //both models
+                                options: this.getCommonChartOptions('radar', {
+                                    scale: {
+                                        pointLabels: {
+                                            fontSize: 16
+                                        },
+                                        ticks: {
+                                            backdrop: false,
+                                            backdropColor: getComputedStyle(document.documentElement)
+                                                .getPropertyValue('--color-accent'),
+                                            fontColor: getComputedStyle(document.documentElement)
+                                                .getPropertyValue('--text-color-primary'),
+                                            display: true,
+                                        },
+
+                                    }
+
+                                }),
+                                transformer: racesChartTransformer
+                            }
+                        }
+                    },
+                    line: {
+                        online: {
+                            averages: {
+                                data: {},
+                                options: this.getCommonChartOptions('line', {
+                                }),
+                                transformer: characterAveragesChartTransformer,
+                                title: "Online Characters"
+                            }
+                        },
+                        all: {
+                            averages: {
+                                data: {},
+                                options: this.getCommonChartOptions('line', {
+                                }),
+                                transformer: characterAveragesChartTransformer,
+                                title: "All Characters"
+                            }
+                        },
                     }
                 }
             }
@@ -309,12 +425,11 @@
         methods: {
             fetchCharacterResources(firebaseService) {
                 const self = this;
-                self.isLoading = true;
-
                 window.axios.get(`${ self.coorsProxyUrl }/${ self.eden.api.endpoints.get.onlineCharacters }`)
                     .then(function(response) {
                         self.onlineCharacters = response.data.characters;
-                        self.progressIncrease(20);
+                        self.totalOnline = response.data.characters.length;
+                        self.progressIncrease(10);
                     })
                     .then(function() {
                         self.fetchCharacterProfiles(firebaseService)
@@ -337,7 +452,7 @@
                             self.allSnapshot = snapshot.val()[key];
                         }
                     }).then(function () {
-                        self.progressIncrease(20);
+                        self.progressIncrease(10);
                     })
             },
             fetchCharacterProfiles(firebaseService) {
@@ -369,7 +484,26 @@
                     .then(function (snapshot) {
                         self.totalCharacters = window._.keys(snapshot.val()).length;
                     }).then(function () {
-                        self.progressIncrease(20);
+                        self.progressIncrease(10);
+                    });
+            },
+            fetchCharacterAverages(firebaseService) {
+                let self = this;
+                let ref = firebaseService.database.ref(`/data/characters/averages/total`);
+                ref.limitToLast(7)
+                    .once('value')
+                        .then(function (snapshot) {
+                            self.characterAverages = snapshot.val();
+                        }).then(function () {
+                            self.progressIncrease(10);
+                        });
+                ref = firebaseService.database.ref(`/data/characters/averages/online`);
+                ref.limitToLast(7)
+                    .once('value')
+                    .then(function (snapshot) {
+                        self.onlineAverages = snapshot.val();
+                    }).then(function () {
+                        self.progressIncrease(10);
                     });
             },
             buildLocalSnapshot() {
@@ -388,8 +522,6 @@
                     titlesTransformer(profile, censusModel);
                 });
                 this.onlineSnapshot = censusModel;
-                this.progressFinish();
-                this.isLoading = false;
             },
             getCommonChartOptions(type, merged={}) {
                 let types = {
@@ -421,6 +553,9 @@
                         animation: {
                             animateScale: true
                         }
+                    },
+                    radar: {
+
                     }
                 };
                 let typedOpts = window._.merge(types['common'], types[type]);
@@ -433,7 +568,11 @@
             animateCrystal() {
                 if (! this.crystal.anim) {
                     this.crystal.anim = true;
-                    if (this.crystal.power >= 12) {
+                    if (this.crystal.power >= 36) {
+                        this.spinCrystal();
+                    }
+                    else if (this.crystal.power >= 12) {
+                        this.crystal.shudder = false;
                         this.hardShakeCrystal();
                     } else {
                         this.shakeCrystal();
@@ -454,11 +593,6 @@
                 let self = this;
                 if (! this.crystal.hard_shake) {
                     this.crystal.hard_shake = true;
-
-                    if (this.crystal.shudder) {
-                        this.crystal.shudder = false;
-                    }
-
                     setTimeout(function () {
                         self.crystal.anim = false;
                         self.crystal.hard_shake = false;
@@ -468,6 +602,15 @@
                         }
                     }, 900);
                 }
+            },
+            spinCrystal() {
+                let self = this;
+                if (! this.crystal.spin) {
+                    this.crystal.spin = true;
+                }
+                setTimeout(function () {
+                    self.crystal.anim = false;
+                }, 900);
             },
             onFixedHeaderChange(fixed, currentScrollPos, threshold) {
                 if (currentScrollPos !== undefined && threshold !== undefined) {
@@ -492,6 +635,22 @@
                 },
                 set: function (val) {
                     this.eden.data.characterProfiles = val;
+                }
+            },
+            characterAverages: {
+                get: function () {
+                    return this.eden.data.characterAverages;
+                },
+                set: function (val) {
+                    this.eden.data.characterAverages = val;
+                }
+            },
+            onlineAverages: {
+                get: function () {
+                    return this.eden.data.onlineAverages;
+                },
+                set: function (val) {
+                    this.eden.data.onlineAverages = val;
                 }
             },
             totalCharacters: {
@@ -529,16 +688,33 @@
         },
         watch: {
             allSnapshot: function(newVal) {
+                //all
                 this.charts.bar.all.race_genders.data = newVal;
                 this.charts.doughnut.all.genders.data = newVal;
+
+                //stacked
+                this.charts.radar.stacked.races.data.push(newVal);
             },
-            onlineSnapshot:  function(newVal) {
+            onlineSnapshot: function(newVal) {
+                //online
                 this.charts.bar.online.race_genders.data = newVal;
                 this.charts.doughnut.online.genders.data = newVal;
+
+                //stacked
+                this.charts.radar.stacked.races.data.push(newVal);
+
+                this.progressFinish();
+                this.isLoading = false;
+            },
+            characterAverages: function(newVal) {
+                this.charts.line.all.averages.data = newVal;
+            },
+            onlineAverages: function(newVal) {
+                this.charts.line.online.averages.data = newVal;
             },
             characterProfiles: function(newVal) {
                 if(newVal.length === this.onlineCharacters.length) {
-                    this.progressIncrease(20);
+                    this.progressIncrease(10);
                     this.buildLocalSnapshot();
                 }
             }

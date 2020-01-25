@@ -1,27 +1,27 @@
 function raceGendersChartTransformer(model) {
-    let computedStyle = getComputedStyle(document.documentElement);
-    let colorMaleHex = computedStyle.getPropertyValue('--color-secondary');
-    let colorFemaleHex = computedStyle.getPropertyValue('--color-primary');
-    let colorMaleRgba = 'rgba(3, 218, 198, .4285714)';
-    let colorFemaleRgba = 'rgba(187, 134, 252, .4285714)';
+/*    let computedStyle = getComputedStyle(document.documentElement);
+    let colorSecondaryHex = computedStyle.getPropertyValue('--color-secondary');
+    let colorPrimaryHex = computedStyle.getPropertyValue('--color-primary');*/
+    let colorSecondaryRgba = 'rgba(3, 218, 198, .4285714)';
+    let colorPrimaryRgba = 'rgba(187, 134, 252, .4285714)';
 
     let races = ['Hume', 'Elvaan', 'Tarutaru', 'Mithra', 'Galka'];
 
     let maleDataset =  {
         label: "Male",
-        backgroundColor: colorMaleRgba,
-        borderColor: colorMaleRgba,
-        hoverBackgroundColor: colorMaleRgba,
-        hoverBorderColor: colorMaleRgba,
+        backgroundColor: colorSecondaryRgba,
+        borderColor: colorSecondaryRgba,
+        hoverBackgroundColor: colorSecondaryRgba,
+        hoverBorderColor: colorSecondaryRgba,
         data: []
     };
 
     let femaleDataset = {
         label: "Female",
-        backgroundColor: colorFemaleRgba,
-        borderColor: colorFemaleRgba,
-        hoverBackgroundColor: colorFemaleRgba,
-        hoverBorderColor: colorFemaleRgba,
+        backgroundColor: colorPrimaryRgba,
+        borderColor: colorPrimaryRgba,
+        hoverBackgroundColor: colorPrimaryRgba,
+        hoverBorderColor: colorPrimaryRgba,
         data: []
     };
 

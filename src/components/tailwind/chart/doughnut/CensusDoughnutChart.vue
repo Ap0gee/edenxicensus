@@ -19,7 +19,6 @@
                 id: drawTextCenterPlugin.id,
                 beforeDraw: drawTextCenterPlugin.beforeDraw
             });
-            console.log(this.chartOptions);
             this.renderChart(this.chartData, this.chartOptions);
         }
     };

@@ -1,7 +1,7 @@
 export default {
     props: {
         data: {
-            type: [Object],
+            type: [Object, Array],
             default: () => ({})
         },
         options: {
@@ -66,7 +66,6 @@ export default {
             this.censusData = newVal;
         },
         censusData: function(newVal) {
-            console.log('updating chart data', this.chartData);
             this.chartData = this.transformer(this.censusData);
         }
     }

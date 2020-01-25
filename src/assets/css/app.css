@@ -309,6 +309,10 @@ html[data-theme="dark"] {
     animation: shudder .1428571s 0s infinite cubic-bezier(.36,.07,.19,.97) both;
 }
 
+.spin {
+    animation: spin .1428571s 0s infinite linear;
+}
+
 /* Animation Keyframes
  ======================================================================================================================*/
 @keyframes shake {
@@ -403,5 +407,14 @@ html[data-theme="dark"] {
     }
     to {
         transform: translate(0%, 0%);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
     }
 }
