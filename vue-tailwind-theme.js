@@ -1,5 +1,5 @@
 const TButton = {
-    baseClass: 'text-white border border-accent-darker block rounded-none inline-flex items-center justify-center focus:border-accent-darker focus:outline-none',
+    baseClass: 'text-white border border-accent-darker block rounded inline-flex items-center justify-center focus:border-accent-darker focus:outline-none',
     defaultClass: 'bg-accent-darker border-accent-darker hover:bg-accent hover:border-accent',
     disabledClass: 'cursor-not-allowed opacity-75',
     defaultSizeClass: 'px-6 py-3 text-md',

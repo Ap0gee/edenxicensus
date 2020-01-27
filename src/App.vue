@@ -8,9 +8,9 @@
         <grid-widget-layout>
             <smart-widget-grid :layout="this.grid.layouts.head" :isStatic="true">
                 <smart-widget slot="0" simple>
-                    <div class="crystal-container" v-if="!this.crystal.condensed">
-                        <span class="crystal-btn" @click.prevent="powerCrystal"></span>
-                        <span class="crystal-power">
+                    <div class="crystal-container no-select " v-if="!this.crystal.condensed">
+                        <span class="crystal-btn no-select" @click.prevent="powerCrystal"></span>
+                        <span class="crystal-power no-select">
                             <!--<particle-button />-->
                         </span>
                         <div class="absolute crystal no-select" :class="{'shake': this.crystal.shake, 'hard-shake': this.crystal.hard_shake, 'shudder': this.crystal.shudder}"><img :class="{'spin': this.crystal.spin}" src="/img/crystal.png" width="250" height="250"/></div>
@@ -21,13 +21,13 @@
                 <modified-fixed-header v-bind="this.header" v-on:change="onFixedHeaderChange">
                     <div class="flex flex-row flex-no-wrap justify-end max-h-full">
                         <div class="crystal-container--isFixed w-full h-full " :class="{'shrink': this.crystal.condensed}" v-if="this.crystal.condensed">
-                            <span class="crystal-btn" @click.prevent="powerCrystal"></span>
+                            <span class="crystal-btn no-select" @click.prevent="powerCrystal"></span>
                             <span class="crystal-power">
 
                             </span>
                             <div class="absolute crystal no-select" :class="{'shake': this.crystal.shake, 'hard-shake': this.crystal.hard_shake, 'shudder': this.crystal.shudder}"><img :class="{'spin': this.crystal.spin}" src="/img/crystal.png" width="250" height="250"/></div>
                         </div>
-                        <div class="flex-initial nav-btn mr-4 text-xl">
+                        <div class="flex-initial nav-btn mr-2 text-xl">
                             <t-dropdown-custom v-bind="this.ui.buttons.nav_dropdown">
                                 <ul>
                                     <li class="bg-1">
@@ -153,8 +153,6 @@
 </template>
 
 <script>
-
-
     import progressBarMixin from '@/mixins/progress-bar.mixin';
     import powerCrystalMixin from '@/mixins/power-crystal.mixin';
     import particlesMixin from '@/mixins/particles.mixin';
@@ -204,8 +202,8 @@
             scrollerMixin
         ],
         created() {
-          //this.startLoading();
-          this.loadTestData();
+          this.startLoading();
+          //this.loadTestData();
         },
         mounted() {
             let self = this;
@@ -321,7 +319,7 @@
         },
         methods: {
             startLoading() {
-                this.progressSet(0);
+                this.progressSet(10);
                 this.isLoading = true;
                 this.fetchOnlineCharacters();
             },
@@ -545,25 +543,25 @@
             },
             loadingProgress: function(newVal) {
                 switch(newVal) {
-                    case 10:
+                    case 20:
                         this.fetchRemoteSnapshot();
                         break;
-                    case 20:
+                    case 30:
                         this.fetchTotalCharactersCount();
                         break;
-                    case 30:
+                    case 40:
                         this.fetchCharacterAverages();
                         break;
-                    case 40:
+                    case 50:
                         this.fetchOnlineAverages();
                         break;
-                    case 50:
+                    case 60:
                         this.fetchCharacterProfiles();
                         break;
-                    case 60:
+                    case 70:
                         this.buildLocalSnapshot();
                         break;
-                    case 70:
+                    case 80:
                         this.progressFinish();
                         this.isLoading = false;
                         break;

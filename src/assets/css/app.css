@@ -174,7 +174,7 @@ html[data-theme="dark"] {
 /* Fixed Nav
  ======================================================================================================================*/
 #app .navbar.vue-fixed-header {
-    padding: 0 20px;
+    padding: 0;
     z-index: var(--z-card);
 }
 
@@ -195,8 +195,14 @@ html[data-theme="dark"] {
     z-index: var(--z-nav);
 }
 
+#app .vue-fixed-header--isFixed .nav-btn .t-button {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
 #app .navbar .nav-btn {
     z-index: var(--z-nav);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
 /* Crystal
@@ -243,7 +249,6 @@ html[data-theme="dark"] {
     z-index: calc(var(--z-nav) - 2);
 }
 
-
 /* Misc
 =======================================================================================================================*/
 #app hr.sep {
@@ -271,6 +276,8 @@ html[data-theme="dark"] {
 }
 
 .no-select {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
