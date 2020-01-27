@@ -1,7 +1,6 @@
 export default {
     id: 'DrawTextCenter',
     beforeDraw: function (chart) {
-        console.log('before draw');
         if (chart.config.options.elements.center) {
             //Get ctx from string
             var ctx = chart.chart.ctx;

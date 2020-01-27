@@ -175,6 +175,7 @@ html[data-theme="dark"] {
  ======================================================================================================================*/
 #app .navbar.vue-fixed-header {
     padding: 0 20px;
+    z-index: var(--z-card);
 }
 
 #app .navbar.vue-fixed-header--isFixed {
@@ -191,6 +192,10 @@ html[data-theme="dark"] {
     width: 100%;
     height: 50px;
     padding: 12px 20px;
+    z-index: var(--z-nav);
+}
+
+#app .navbar .nav-btn {
     z-index: var(--z-nav);
 }
 

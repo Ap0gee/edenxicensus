@@ -5,7 +5,7 @@ module.exports = {
     configureWebpack: {
         resolve: {
             alias: {
-                '@cX': path.resolve('src/components/' + cssFrameworkDir)
+                '@cX': path.resolve('src/components/' + cssFrameworkDir),
             }
         }
     }

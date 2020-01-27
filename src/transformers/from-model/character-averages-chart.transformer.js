@@ -50,7 +50,6 @@ function characterAveragesChartTransformer(model) {
 
         modelKeys.forEach(function (key) {
             let dayOfWeek = daysOfWeek[window.moment(key, 'Y-M-D').day()];
-            console.log(window.moment(key, 'Y-M-D').day());
             labels.push(dayOfWeek);
             let data = model[key];
 
@@ -78,7 +77,6 @@ function characterAveragesChartTransformer(model) {
 
     }
 
-    console.log('labels', labels);
     return {
         labels: labels,
         datasets: [

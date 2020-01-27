@@ -7,6 +7,7 @@ function gendersChartTransformer(model) {
 
     let genders = ['Male', 'Female'];
     let colors = [colorSecondaryRgba, colorPrimaryRgba];
+
     let genderDataset = {
         backgroundColor: colors,
         borderColor: colors,
