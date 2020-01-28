@@ -1,15 +1,14 @@
 <script>
-    import {Bar} from 'vue-chartjs';
+    import {Pie} from 'vue-chartjs';
     import BaseChartMixin from '@/mixins/base-chart.mixin';
 
     export default {
-        name: "BaseBarChart",
-        extends: Bar,
+        name: "BasePieChart",
+        extends: Pie,
         mixins: [
             BaseChartMixin
         ],
         mounted () {
-            console.log('rendering');
             this.renderChart(this.chartData, this.chartOptions)
         },
         watch: {

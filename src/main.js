@@ -18,10 +18,10 @@ import '@/assets/css/app.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import FontAwesomeIcon from "@fortawesome/vue-fontawesome/src/components/FontAwesomeIcon";
-import { faArrowUp, faArrowDown, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faArrowDown, faCaretDown, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import TDropdownCustom from "@cX/ui/dropdown/TDropdownCustom";
 
-library.add(faArrowUp, faArrowDown, faCaretDown);
+library.add(faArrowUp, faArrowDown, faCaretDown, faQuestionCircle);
 
 Vue.use(VueFirestore);
 Vue.use(VueSmartWidget);

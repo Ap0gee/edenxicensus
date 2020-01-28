@@ -38,7 +38,9 @@
     "vue-particles": "^1.0.9",
     "vue-progressbar": "^0.7.5",
     "vue-smart-widget": "^0.5.5",
-    "vue-tailwind": "^0.4.2"
+    "vue-tailwind": "^0.4.2",
+    "vue-tippy": "^4.3.1",
+    "vue-toastr": "^2.1.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",

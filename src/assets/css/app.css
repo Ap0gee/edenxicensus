@@ -171,6 +171,11 @@ html[data-theme="dark"] {
     color: rgba(255, 255, 255, 0.54);
 }
 
+#app .chart-sub-title {
+    font-size: 1.0em;
+    color: var(--text-color-disabled);
+}
+
 /* Fixed Nav
  ======================================================================================================================*/
 #app .navbar.vue-fixed-header {
@@ -251,10 +256,16 @@ html[data-theme="dark"] {
 
 /* Misc
 =======================================================================================================================*/
+#app .footer {
+    z-index: var(--z-card);
+    height: 60px;
+}
+
 #app hr.sep {
     border: 2px solid var(--color-accent);
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
+    background-color: var(--color-accent);
 }
 
 #app .eden-branding__logo {

@@ -4,6 +4,9 @@ import { racesChartTransformer } from "@/transformers/from-model/races-chart.tra
 import { characterAveragesChartTransformer } from "@/transformers/from-model/character-averages-chart.transformer";
 import { jobsChartTransformer } from "@/transformers/from-model/jobs-chart.transformer";
 import { jobsTotalsChartTransformer } from "@/transformers/from-model/jobs-totals-chart.transformer";
+import { ranksTotalsChartTransformer } from "@/transformers/from-model/ranks-totals-chart.transformer";
+import { nationsChartTransformer } from "@/transformers/from-model/nations-chart.transformer";
+import { craftsChartTransformer } from "@/transformers/from-model/crafts-chart.transformer";
 
 export default {
     data: function () {
@@ -47,6 +50,36 @@ export default {
                             }),
                             transformer: jobsTotalsChartTransformer,
                             title: "Online Characters"
+                        },
+                        nations: {
+                            data: {},
+                            options: this.getCommonChartOptions('bar', {
+                                scales: {
+                                    xAxes: [{
+                                        stacked: true
+                                    }],
+                                }
+                            }),
+                            title: "Online Characters",
+                            transformer: nationsChartTransformer
+                        },
+                        crafts: {
+                            data: {},
+                            options: this.getCommonChartOptions('bar', {
+                                scales: {
+                                    xAxes: [{
+                                        stacked: true
+                                    }],
+                                    yAxes: [{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: '# of levels'
+                                        }
+                                    }],
+                                }
+                            }),
+                            title: "Online Characters",
+                            transformer: craftsChartTransformer
                         }
                     },
                     all: {
@@ -86,6 +119,36 @@ export default {
                             }),
                             transformer: jobsTotalsChartTransformer,
                             title: "All Characters"
+                        },
+                        nations: {
+                            data: {},
+                            options: this.getCommonChartOptions('bar', {
+                                scales: {
+                                    xAxes: [{
+                                        stacked: true
+                                    }],
+                                }
+                            }),
+                            title: "All Characters",
+                            transformer: nationsChartTransformer
+                        },
+                        crafts: {
+                            data: {},
+                            options: this.getCommonChartOptions('bar', {
+                                scales: {
+                                    xAxes: [{
+                                        stacked: true
+                                    }],
+                                    yAxes: [{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: '# of levels'
+                                        }
+                                    }],
+                                }
+                            }),
+                            title: "Online Characters",
+                            transformer: craftsChartTransformer
                         }
                     }
                 },
@@ -169,6 +232,29 @@ export default {
                             title: "All Characters"
                         },
                     }
+                },
+                pie: {
+                    online: {
+                        ranks: {
+                            data: {},
+                            options: this.getCommonChartOptions('pie', {
+                            }),
+                            transformer: ranksTotalsChartTransformer,
+                            title: "Online Characters",
+                            subTitle: "(Total Ranks)"
+                        },
+
+                    },
+                    all: {
+                        ranks: {
+                            data: {},
+                            options: this.getCommonChartOptions('pie', {
+                            }),
+                            transformer: ranksTotalsChartTransformer,
+                            title: "All Characters",
+                            subTitle: "(Total Ranks)"
+                        }
+                    }
                 }
             }
         }
@@ -220,6 +306,9 @@ export default {
                     }
                 },
                 radar: {
+
+                },
+                pie: {
 
                 }
             };

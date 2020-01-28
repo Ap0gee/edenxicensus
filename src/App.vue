@@ -42,6 +42,21 @@
                                     <li class="bg-1">
                                         <a href="#jobs-distribution" class="block no-underline px-4 py-2 hover:bg-accent hover:text-white">JOBS</a>
                                     </li>
+                                    <li class="bg-1">
+                                        <a href="#ranks-distribution" class="block no-underline px-4 py-2 hover:bg-accent hover:text-white">RANKS</a>
+                                    </li>
+                                    <li class="bg-1">
+                                        <a href="#crafts-distribution" class="block no-underline px-4 py-2 hover:bg-accent hover:text-white">CRAFTS</a>
+                                    </li>
+                                    <li class="bg-1">
+                                        <a href="#misc-stats" class="block no-underline px-4 py-2 hover:bg-accent hover:text-white">MISC</a>
+                                    </li>
+                                    <li class="bg-1">
+                                        <a href="#previous" class="block no-underline px-4 py-2 hover:bg-accent hover:text-white">PREVIOUS</a>
+                                    </li>
+                                    <li class="bg-1">
+                                        <a href="#about" class="block no-underline px-4 py-2 hover:bg-accent hover:text-white">ABOUT</a>
+                                    </li>
                                 </ul>
                             </t-dropdown-custom>
                         </div>
@@ -70,13 +85,10 @@
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
                         </div>
-
                         <census-line-chart v-bind="this.charts.line.all.averages" />
-
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
                         </div>
-
                         <census-line-chart v-bind="this.charts.line.online.averages" />
                     </div>
                 </smart-widget>
@@ -86,7 +98,6 @@
                         <hr class="sep"/>
                     </div>
                     <div class="flex flex-col flex-no-wrap justify-between h-full">
-
                         <div class="mt-10">
                             <census-radar-chart v-bind="this.charts.radar.shared.races" />
                         </div>
@@ -95,60 +106,159 @@
 
                 <smart-widget id="gender-distribution" slot="2" title="GENDER DISTRIBUTION" subTitle="" :loading="isLoading">
                     <div class="flex flex-col flex-no-wrap justify-center h-full">
-
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
                         </div>
-
                         <div class="flex flex-row flex-wrap flex-auto justify-between">
                             <census-doughnut-chart v-bind="this.charts.doughnut.all.genders" />
                             <census-doughnut-chart v-bind="this.charts.doughnut.online.genders" />
                         </div>
-
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
                         </div>
-
                         <census-bar-chart v-bind="this.charts.bar.all.race_genders"/>
-
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
                         </div>
-
                         <census-bar-chart v-bind="this.charts.bar.online.race_genders"/>
                     </div>
                 </smart-widget>
 
                 <smart-widget id="jobs-distribution" slot="3" title="JOBS DISTRIBUTION" subTitle="" :loading="isLoading">
                     <div class="flex flex-col flex-no-wrap justify-center h-full">
-
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
                         </div>
-
                         <census-bar-chart v-bind="this.charts.bar.all.jobs" />
-
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
                         </div>
-
                         <census-bar-chart v-bind="this.charts.bar.online.jobs" />
-
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
                         </div>
-
                         <census-bar-chart v-bind="this.charts.bar.all.jobs_totals" />
-
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
                         </div>
-
                         <census-bar-chart v-bind="this.charts.bar.online.jobs_totals" />
                     </div>
                 </smart-widget>
+
+                <smart-widget id="ranks-distribution" slot="4" title="RANKS AND NATIONS DISTRIBUTION" subTitle="" :loading="isLoading">
+                    <div class="flex flex-col flex-no-wrap justify-center h-full">
+                        <div class="flex flex-col flex-no-wrap flex-initial justify-center">
+                            <hr class="sep"/>
+                        </div>
+                        <div class="flex flex-row flex-wrap flex-auto justify-between">
+                            <census-pie-chart v-bind="this.charts.pie.all.ranks" />
+                            <census-pie-chart v-bind="this.charts.pie.online.ranks" />
+                        </div>
+                        <div class="flex flex-col flex-no-wrap flex-initial justify-center">
+                            <hr class="sep"/>
+                        </div>
+                            <census-bar-chart v-bind="this.charts.bar.all.nations" />
+                        <div class="flex flex-col flex-no-wrap flex-initial justify-center">
+                            <hr class="sep"/>
+                        </div>
+                            <census-bar-chart v-bind="this.charts.bar.online.nations" />
+                    </div>
+                </smart-widget>
+
+                <smart-widget id="crafts-distribution" slot="5" title="CRAFTS DISTRIBUTION" subTitle="" :loading="isLoading">
+                    <div class="flex flex-col flex-no-wrap justify-center h-full">
+                        <div class="flex flex-col flex-no-wrap flex-initial justify-center">
+                            <hr class="sep"/>
+                        </div>
+                        <census-bar-chart v-bind="this.charts.bar.all.crafts" />
+                        <div class="flex flex-col flex-no-wrap flex-initial justify-center">
+                            <hr class="sep"/>
+                        </div>
+                        <census-bar-chart v-bind="this.charts.bar.online.crafts" />
+                    </div>
+                </smart-widget>
+
+                <smart-widget id="misc-stats" slot="6" title="MISC STATS" subTitle="" :loading="isLoading">
+                    <div class="flex flex-col flex-no-wrap justify-center h-full">
+                        <div class="flex flex-col flex-no-wrap flex-initial justify-center">
+                            <hr class="sep"/>
+                        </div>
+                        <div class="flex flex-auto flex-col flex-no-wrap justify-around h-full">
+                            <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
+                                <div class="flex-initial text-2xl text-disabled">Total Mentors</div>
+                                <div class="flex-initial text-5xl text-white" v-text="this.allSnapshot.mentors"></div>
+                            </div>
+                            <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
+                                <div class="flex-initial text-2xl text-disabled">Most Popular Character Size</div>
+                                <div class="flex-initial text-5xl text-white" v-text="this.mostPopularSize"></div>
+                            </div>
+                            <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
+                                <div class="flex-initial text-2xl text-disabled">Top 3 First Letters In Names</div>
+                                <div class="flex-initial text-5xl text-white" v-text="this.mostPopularLetters"></div>
+                            </div>
+                            <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
+                                <div class="flex-initial text-2xl text-disabled">Most Popular Title</div>
+                                <div class="flex-initial text-5xl text-white" v-text="this.mostPopularTitle"></div>
+                            </div>
+                            <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
+                                <div class="flex-initial text-2xl text-disabled">Most Popular Face/Hair</div>
+                                <div class="flex-initial text-5xl text-white" v-text="this.mostPopularFace"></div>
+                            </div>
+                        </div>
+                    </div>
+                </smart-widget>
+
+                <smart-widget id="previous" slot="7" simple :loading="isLoading">
+                    <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
+                        <div class="flex-initial text-4xl text-secondary"><a class="hover:underline" href="javascript:void(0)">View Previous Censuses</a></div>
+                        <div class="flex-initial text-4xl">Coming Soon!</div>
+                    </div>
+                </smart-widget>
+
+                <smart-widget id="about" title="ABOUT" slot="8" :loading="isLoading">
+                    <div class="flex flex-col flex-no-wrap justify-center h-full">
+                        <div class="flex flex-col flex-no-wrap flex-initial justify-center">
+                            <hr class="sep"/>
+                        </div>
+                        <div class="flex flex-auto flex-col flex-no-wrap justify-around h-full">
+                            <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
+                                <div class="flex-initial text-2xl text-white">
+                                    EdenXiCensus provides up-to-date statistics of players and their
+                                    choices within the <a class="text-secondary hover:underline" href="https://edenxi.com" target="_blank">Eden</a> private server.
+                                </div>
+                            </div>
+                            <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
+                                <div class="flex-initial text-2xl text-disabled">Author</div>
+                                <div class="flex-initial text-2xl text-white">Sid Shovan: <a class="text-secondary hover:underline" href="mailto:sjshovan@Gmail.com">Sjshovan@Gmail.com</a></div>
+                                <div class="flex-initial text-2xl text-white"><a class="text-secondary hover:underline" href="https://twitter.com/Sjshovan" target="_blank">https://twitter.com/Sjshovan</a></div>
+                            </div>
+                            <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
+                                <div class="flex-initial text-2xl text-disabled">Special Thanks</div>
+                                <div class="flex-initial text-xl text-white">
+                                    Thanks to atm0s and the rest of the Eden team for all the amazing work
+                                    making this any many other things possible.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </smart-widget>
+
             </smart-widget-grid>
         </grid-widget-layout>
+        <div class="footer absolute flex flex-row flex-no-wrap justify-around w-full bg-3 mx-auto">
+            <div class="container flex flex-row justify-between">
+                <div class="flex-initial flex flex-col flex-no-wrap justify-center mx-5 bg-3">
+                    <div>Statistics gathering began: <span class="text-primary">1/18/2020</span></div>
+                </div>
+                <div class="flex-initial flex flex-col flex-no-wrap justify-center mx-5 bg-3">
+                    <a class="text-secondary hover:underline" href="https://github.com/Ap0gee/" target="_blank">View Source Code on Github</a>
+                </div>
+                <div class="flex-initial flex flex-col flex-no-wrap justify-center mx-5 bg-3">
+                    <a class="text-secondary hover:underline" href="https://https://www.paypal.com/paypalme2/sjshovan" target="_blank">Toss a coin to your author</a>
+
+                </div>
+            </div>
+        </div>
     </main>
 </template>
 
@@ -157,7 +267,6 @@
     import powerCrystalMixin from '@/mixins/power-crystal.mixin';
     import particlesMixin from '@/mixins/particles.mixin';
     import activeChartsMixin from '@/mixins/active-charts.mixin';
-    import scrollerMixin from '@/mixins/scroller.mixin';
 
     import GridWidgetLayout from "@cX/layout/GridWidgetLayout";
     import ModifiedFixedHeader from "@cX/ui/header/ModifiedFixedHeader";
@@ -167,6 +276,7 @@
     import CensusDoughnutChart from "@cX/chart/doughnut/CensusDoughnutChart";
     import CensusRadarChart from "@cX/chart/radar/CensusRadarChart";
     import CensusLineChart from "@cX/chart/line/CensusLineChart";
+    import CensusPieChart from "./components/tailwind/chart/pie/CensusPieChart";
 
     const  { craftsTransformer } = require('@/transformers/from-object/crafts.transformer');
     const  { facesTransformer} = require("@/transformers/from-object/faces.transformer");
@@ -183,6 +293,7 @@
 
     const testCensusSnapshot = require('@/misc/test_data/census-snapshot');
     const censusModel = require('@/models/census-data.model');
+    const { getTitleById } = require('@/utils/tools');
 
     export default {
         name: 'app',
@@ -193,13 +304,13 @@
             CensusDoughnutChart,
             CensusRadarChart,
             CensusLineChart,
+            CensusPieChart,
         },
         mixins: [
             progressBarMixin,
             powerCrystalMixin,
             particlesMixin,
             activeChartsMixin,
-            scrollerMixin
         ],
         created() {
           this.startLoading();
@@ -280,6 +391,10 @@
                         characterAverages: [],
                         totalOnline: 0,
                         totalCharacters: 0,
+                        mostPopularSize: "",
+                        mostPopularLetters: "",
+                        mostPopularTitle: "",
+                        mostPopularFace: "",
                         snapshots: {
                             all: {},
                             online: {}
@@ -308,6 +423,11 @@
                             { x: 0, y: 0, w: 12, h: 1, i: "0" },
                         ],
                         body: [
+                            { x: 0, y: 0, w: 12, h: 8, i:  "8" },
+                            { x: 0, y: 0, w: 12, h: 4, i:  "7" },
+                            { x: 0, y: 0, w: 12, h: 16, i:  "6" },
+                            { x: 0, y: 0, w: 12, h: 20, i:  "5" },
+                            { x: 0, y: 0, w: 12, h: 29, i:  "4" },
                             { x: 0, y: 0, w: 12, h: 36, i:  "3" },
                             { x: 0, y: 0, w: 12, h: 29, i:  "2" },
                             { x: 0, y: 0, w: 12, h: 10, i:  "1" },
@@ -372,15 +492,8 @@
                             if (snapshot.exists()) {
                                 self.eden.data.characterProfiles.push(snapshot.val());
                             } else {
-                                window.axios.get(`${ self.coorsProxyUrl }/${ self.eden.api.endpoints.get.characterProfiles }?id=${ character.charid }`)
-                                    .then(function (response) {
-                                        self.eden.data.characterProfiles.push(response.data);
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                        self.progressFail();
-                                        self.isLoading = false;
-                                    })
+                                let index = self.onlineCharacters.indexOf(character);
+                                self.onlineCharacters.splice(index, 1);
                             }
                         })
                 });
@@ -432,7 +545,6 @@
                     raceGendersTransformer(profile, censusModel);
                     titlesTransformer(profile, censusModel);
                 });
-                console.log(censusModel);
                 this.onlineSnapshot = censusModel;
                 this.progressIncrease(10);
             },
@@ -441,6 +553,40 @@
                     this.crystal.condensed = currentScrollPos >= threshold;
                 }
             },
+            getMostPopularSize() {
+                let sizes = this.allSnapshot.sizes;
+                let max = Math.max.apply(Math, window._.values(sizes));
+                let size = window._.keys(sizes)[window._.values(sizes).indexOf(max)];
+                return size.charAt(0).toUpperCase() + size.slice(1);
+            },
+            getMostPopularLetters() {
+                let names = Object.assign({}, this.allSnapshot.names);
+                let results = {
+                    0: "",
+                    1: "",
+                    2: ""
+                };
+
+                window._.keys(results).forEach(function (resultKey) {
+                    let max = Math.max.apply(Math, window._.values(names));
+                    let letter = window._.keys(names)[window._.values(names).indexOf(max)];
+                    results[resultKey] = letter.toUpperCase();
+                    delete names[letter];
+                });
+
+                return `1st: '${ results[0] }' 2nd: '${results[1]}' 3rd: '${results[2]}'`;
+            },
+            getMostPopularTitle() {
+                let titles = this.allSnapshot.titles;
+                let max = Math.max.apply(Math, window._.values(titles));
+                let title = window._.keys(titles)[window._.values(titles).indexOf(max)];
+                return getTitleById(title);
+            },
+            getMostPopularFace() {
+                let faces = this.allSnapshot.faces;
+                let max = Math.max.apply(Math, window._.values(faces));
+                return window._.keys(faces)[window._.values(faces).indexOf(max)];
+            }
         },
         computed: {
             onlineCharacters: {
@@ -507,6 +653,38 @@
                     this.eden.data.snapshots.online = val;
                 }
             },
+            mostPopularSize: {
+                get: function () {
+                    return this.eden.data.mostPopularSize;
+                },
+                set: function (val) {
+                    this.eden.data.mostPopularSize = val;
+                }
+            },
+            mostPopularLetters: {
+                get: function () {
+                    return this.eden.data.mostPopularLetters;
+                },
+                set: function (val) {
+                    this.eden.data.mostPopularLetters = val;
+                }
+            },
+            mostPopularTitle: {
+                get: function () {
+                    return this.eden.data.mostPopularTitle;
+                },
+                set: function (val) {
+                    this.eden.data.mostPopularTitle = val;
+                }
+            },
+            mostPopularFace: {
+                get: function () {
+                    return this.eden.data.mostPopularFace;
+                },
+                set: function (val) {
+                    this.eden.data.mostPopularFace = val;
+                }
+            }
         },
         watch: {
             allSnapshot: function(newVal) {
@@ -515,6 +693,9 @@
                 this.charts.doughnut.all.genders.data = newVal;
                 this.charts.bar.all.jobs.data = newVal;
                 this.charts.bar.all.jobs_totals.data = newVal;
+                this.charts.pie.all.ranks.data = newVal;
+                this.charts.bar.all.nations.data = newVal;
+                this.charts.bar.all.crafts.data = newVal;
 
                 //shared
                 this.charts.radar.shared.races.data.push(newVal);
@@ -526,9 +707,18 @@
                 this.charts.doughnut.online.genders.data = newVal;
                 this.charts.bar.online.jobs.data = newVal;
                 this.charts.bar.online.jobs_totals.data = newVal;
+                this.charts.pie.online.ranks.data = newVal;
+                this.charts.bar.online.nations.data = newVal;
+                this.charts.bar.online.crafts.data = newVal;
 
                 //shared
                 this.charts.radar.shared.races.data.push(newVal);
+
+                //misc
+                this.mostPopularSize = this.getMostPopularSize();
+                this.mostPopularLetters = this.getMostPopularLetters();
+                this.mostPopularTitle = this.getMostPopularTitle();
+                this.mostPopularFace = this.getMostPopularFace();
             },
             characterAverages: function(newVal) {
                 this.charts.line.all.averages.data = newVal;
@@ -570,6 +760,3 @@
         }
     }
 </script>
-
-<style scoped>
-</style>
