@@ -208,14 +208,14 @@
                     </div>
                 </smart-widget>
 
-                <smart-widget id="previous" slot="7" simple :loading="isLoading">
+                <smart-widget id="previous" slot="7" simple>
                     <div class="flex flex-auto flex-col flex-no-wrap justify-center h-full">
                         <div class="flex-initial text-4xl text-secondary"><a class="hover:underline" href="javascript:void(0)">View Previous Censuses</a></div>
                         <div class="flex-initial text-4xl">Coming Soon!</div>
                     </div>
                 </smart-widget>
 
-                <smart-widget id="about" title="ABOUT" slot="8" :loading="isLoading">
+                <smart-widget id="about" title="ABOUT" slot="8">
                     <div class="flex flex-col flex-no-wrap justify-center h-full">
                         <div class="flex flex-col flex-no-wrap flex-initial justify-center">
                             <hr class="sep"/>
@@ -246,15 +246,15 @@
             </smart-widget-grid>
         </grid-widget-layout>
         <div class="footer absolute flex flex-row flex-no-wrap justify-around w-full bg-3 mx-auto">
-            <div class="container flex flex-row justify-between">
-                <div class="flex-initial flex flex-col flex-no-wrap justify-center mx-5 bg-3">
+            <div class="container flex flex-row justify-between px-5">
+                <div class="flex-initial flex flex-col flex-no-wrap justify-center  bg-3">
                     <div>Statistics gathering began: <span class="text-primary">1/18/2020</span></div>
                 </div>
-                <div class="flex-initial flex flex-col flex-no-wrap justify-center mx-5 bg-3">
+                <div class="flex-initial flex flex-col flex-no-wrap justify-center  bg-3">
                     <a class="text-secondary hover:underline" href="https://github.com/Ap0gee/" target="_blank">View Source Code on Github</a>
                 </div>
-                <div class="flex-initial flex flex-col flex-no-wrap justify-center mx-5 bg-3">
-                    <a class="text-secondary hover:underline" href="https://https://www.paypal.com/paypalme2/sjshovan" target="_blank">Toss a coin to your author</a>
+                <div class="flex-initial flex flex-col flex-no-wrap justify-center  bg-3">
+                    <a class="text-secondary hover:underline" href="https://www.paypal.me/sjshovan" target="_blank">Toss a coin to your author</a>
 
                 </div>
             </div>
@@ -423,7 +423,8 @@
                             { x: 0, y: 0, w: 12, h: 1, i: "0" },
                         ],
                         body: [
-                            { x: 0, y: 0, w: 12, h: 8, i:  "8" },
+                            { x: 0, y: 0, w: 12, h: 0, i:  "9" },
+                            { x: 0, y: 0, w: 12, h: 10, i:  "8" },
                             { x: 0, y: 0, w: 12, h: 4, i:  "7" },
                             { x: 0, y: 0, w: 12, h: 16, i:  "6" },
                             { x: 0, y: 0, w: 12, h: 20, i:  "5" },

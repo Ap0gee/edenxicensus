@@ -9,7 +9,7 @@ const TButton = {
 
 const TDropdown = {
     baseClass: 'text-white bg-0',
-    dropdownClass: 'w-64  rounded border border-3 shadow-md py-2 z-10',
+    dropdownClass: 'w-64 t-dropdown-links-container rounded border border-3 shadow-md py-2 z-10',
     disabledClass: '',
 };
 

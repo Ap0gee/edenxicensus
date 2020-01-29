@@ -200,6 +200,9 @@ html[data-theme="dark"] {
     z-index: var(--z-nav);
 }
 
+#app .nav-btn .t-dropdown-links-container {
+}
+
 #app .vue-fixed-header--isFixed .nav-btn .t-button {
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
@@ -258,7 +261,7 @@ html[data-theme="dark"] {
 =======================================================================================================================*/
 #app .footer {
     z-index: var(--z-card);
-    height: 60px;
+    height: 75px;
 }
 
 #app hr.sep {
