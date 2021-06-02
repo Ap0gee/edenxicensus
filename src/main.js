@@ -2,9 +2,7 @@ require('./bootstrap');
 
 import Vue from 'vue';
 import App from './App.vue';
-import FirebaseService from '@/services/firebase.service';
 
-import VueFirestore from 'vue-firestore';
 import VueProgressBar from 'vue-progressbar';
 import VueSmartWidget from 'vue-smart-widget';
 import VueParticles from 'vue-particles'
@@ -23,7 +21,7 @@ import TDropdownCustom from "@cX/ui/dropdown/TDropdownCustom";
 
 library.add(faArrowUp, faArrowDown, faCaretDown, faQuestionCircle);
 
-Vue.use(VueFirestore);
+
 Vue.use(VueSmartWidget);
 Vue.use(VueParticles);
 Vue.use(VueProgressBar, {
